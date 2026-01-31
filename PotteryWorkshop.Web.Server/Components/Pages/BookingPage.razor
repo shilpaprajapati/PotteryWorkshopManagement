@@ -1,0 +1,184 @@
+@page "/booking/{WorkshopId:guid}"
+@using System.ComponentModel.DataAnnotations
+@inject NavigationManager NavigationManager
+
+<PageTitle>Book Workshop - Pottery Workshop</PageTitle>
+
+<MudContainer MaxWidth="MaxWidth.Medium" Class="my-8">
+    <MudText Typo="Typo.h3" Align="Align.Center" Class="mb-6" Style="font-weight: 700; color: #764ba2;">
+        Book Your Workshop
+    </MudText>
+
+    <MudPaper Elevation="3" Class="pa-6">
+        <MudForm @ref="_form" @bind-IsValid="@_isFormValid">
+            <MudStack Spacing="4">
+                <!-- Workshop Selection -->
+                <MudCard Elevation="0" Outlined="true">
+                    <MudCardContent>
+                        <MudText Typo="Typo.h6" Class="mb-2">Selected Workshop</MudText>
+                        <MudText Typo="Typo.body1">Workshop Name Placeholder</MudText>
+                        <MudText Typo="Typo.body2" Color="Color.Secondary">Duration • Capacity</MudText>
+                    </MudCardContent>
+                </MudCard>
+
+                <!-- Contact Information -->
+                <MudText Typo="Typo.h6">Contact Information</MudText>
+                
+                <MudTextField @bind-Value="_customerName" 
+                              Label="Full Name" 
+                              Required="true" 
+                              RequiredError="Name is required"
+                              Variant="Variant.Outlined" />
+                
+                <MudTextField @bind-Value="_customerEmail" 
+                              Label="Email Address" 
+                              Required="true" 
+                              RequiredError="Email is required"
+                              Validation="@(new EmailAddressAttribute())"
+                              Variant="Variant.Outlined" />
+                
+                <MudTextField @bind-Value="_customerPhone" 
+                              Label="Phone Number" 
+                              Required="true" 
+                              RequiredError="Phone is required"
+                              Variant="Variant.Outlined" />
+
+                <!-- Number of People -->
+                <MudNumericField @bind-Value="_numberOfPeople" 
+                                 Label="Number of People" 
+                                 Min="1" 
+                                 Max="10"
+                                 Required="true"
+                                 Variant="Variant.Outlined" />
+
+                <!-- Date and Time Selection -->
+                <MudText Typo="Typo.h6">Select Date & Time</MudText>
+                
+                <MudDatePicker @bind-Date="_selectedDate" 
+                               Label="Workshop Date" 
+                               MinDate="DateTime.Today"
+                               Required="true"
+                               Variant="Variant.Outlined" />
+
+                <MudSelect @bind-Value="_selectedSlot" 
+                           Label="Available Time Slots" 
+                           Required="true"
+                           Variant="Variant.Outlined">
+                    <MudSelectItem Value="@("10:00 AM")">10:00 AM - Available (5 spots)</MudSelectItem>
+                    <MudSelectItem Value="@("2:00 PM")">2:00 PM - Available (3 spots)</MudSelectItem>
+                    <MudSelectItem Value="@("5:00 PM")">5:00 PM - Available (8 spots)</MudSelectItem>
+                </MudSelect>
+
+                <!-- Coupon Code -->
+                <MudTextField @bind-Value="_couponCode" 
+                              Label="Coupon Code (Optional)" 
+                              Variant="Variant.Outlined"
+                              Adornment="Adornment.End"
+                              AdornmentIcon="@Icons.Material.Filled.LocalOffer" />
+
+                <!-- Additional Participants -->
+                @if (_numberOfPeople > 1)
+                {
+                    <MudText Typo="Typo.h6">Additional Participants</MudText>
+                    <MudText Typo="Typo.body2" Color="Color.Secondary" Class="mb-2">
+                        Please provide details for other participants
+                    </MudText>
+                    
+                    @for (int i = 1; i < _numberOfPeople; i++)
+                    {
+                        var index = i;
+                        <MudCard Elevation="0" Outlined="true">
+                            <MudCardContent>
+                                <MudStack Spacing="3">
+                                    <MudText Typo="Typo.subtitle1">Participant @(index + 1)</MudText>
+                                    <MudTextField T="string" Label="Name" Variant="Variant.Outlined" />
+                                    <MudTextField T="string" Label="Email (Optional)" Variant="Variant.Outlined" />
+                                    <MudTextField T="string" Label="Phone (Optional)" Variant="Variant.Outlined" />
+                                </MudStack>
+                            </MudCardContent>
+                        </MudCard>
+                    }
+                }
+
+                <!-- Price Summary -->
+                <MudCard Elevation="0" Style="background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);">
+                    <MudCardContent>
+                        <MudStack Spacing="2">
+                            <MudText Typo="Typo.h6">Price Summary</MudText>
+                            <MudStack Row="true" Justify="Justify.SpaceBetween">
+                                <MudText>Base Price (@_numberOfPeople person(s)):</MudText>
+                                <MudText Style="font-weight: 600;">₹@_basePrice</MudText>
+                            </MudStack>
+                            @if (_discount > 0)
+                            {
+                                <MudStack Row="true" Justify="Justify.SpaceBetween">
+                                    <MudText Color="Color.Success">Discount:</MudText>
+                                    <MudText Color="Color.Success" Style="font-weight: 600;">-₹@_discount</MudText>
+                                </MudStack>
+                            }
+                            <MudDivider />
+                            <MudStack Row="true" Justify="Justify.SpaceBetween">
+                                <MudText Typo="Typo.h6">Total:</MudText>
+                                <MudText Typo="Typo.h6" Color="Color.Primary">₹@(_basePrice - _discount)</MudText>
+                            </MudStack>
+                        </MudStack>
+                    </MudCardContent>
+                </MudCard>
+
+                <!-- Terms and Conditions -->
+                <MudCheckBox @bind-Value="_acceptTerms" Required="true" Color="Color.Primary">
+                    I agree to the <MudLink Href="/terms">terms and conditions</MudLink>
+                </MudCheckBox>
+
+                <!-- Action Buttons -->
+                <MudStack Row="true" Justify="Justify.SpaceBetween" Class="mt-4">
+                    <MudButton Variant="Variant.Outlined" 
+                               Color="Color.Default" 
+                               OnClick="@(() => NavigationManager.NavigateTo("/workshops"))">
+                        Back to Workshops
+                    </MudButton>
+                    <MudButton Variant="Variant.Filled" 
+                               Color="Color.Primary" 
+                               Disabled="@(!_isFormValid || !_acceptTerms)"
+                               OnClick="ProceedToPayment"
+                               Size="Size.Large">
+                        Proceed to Payment
+                    </MudButton>
+                </MudStack>
+            </MudStack>
+        </MudForm>
+    </MudPaper>
+</MudContainer>
+
+@code {
+    [Parameter]
+    public Guid WorkshopId { get; set; }
+
+    private MudForm? _form;
+    private bool _isFormValid;
+    
+    private string _customerName = "";
+    private string _customerEmail = "";
+    private string _customerPhone = "";
+    private int _numberOfPeople = 1;
+    private DateTime? _selectedDate;
+    private string _selectedSlot = "";
+    private string _couponCode = "";
+    private bool _acceptTerms;
+    
+    private decimal _basePrice = 1200;
+    private decimal _discount = 0;
+
+    protected override async Task OnInitializedAsync()
+    {
+        // TODO: Load workshop details from API using WorkshopId
+        await Task.CompletedTask;
+    }
+
+    private async Task ProceedToPayment()
+    {
+        // TODO: Create booking and redirect to payment
+        NavigationManager.NavigateTo($"/payment/{WorkshopId}");
+        await Task.CompletedTask;
+    }
+}

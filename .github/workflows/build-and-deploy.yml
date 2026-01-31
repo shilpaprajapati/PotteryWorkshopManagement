@@ -1,0 +1,76 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '10.0.x'
+    
+    - name: Restore dependencies
+      run: dotnet restore
+    
+    - name: Build
+      run: dotnet build --no-restore --configuration Release
+    
+    - name: Test
+      run: dotnet test --no-build --verbosity normal --configuration Release
+    
+    - name: Publish Web App
+      run: dotnet publish PotteryWorkshop.Web.Server/PotteryWorkshop.Web.csproj -c Release -o ./publish/web
+    
+    - name: Publish API
+      run: dotnet publish PotteryWorkshop.API/PotteryWorkshop.API.csproj -c Release -o ./publish/api
+    
+    - name: Upload Web Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: pottery-workshop-web
+        path: ./publish/web
+    
+    - name: Upload API Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: pottery-workshop-api
+        path: ./publish/api
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.ref == 'refs/heads/main'
+    
+    steps:
+    - name: Download Web Artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: pottery-workshop-web
+        path: ./deploy/web
+    
+    - name: Download API Artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: pottery-workshop-api
+        path: ./deploy/api
+    
+    # Add deployment steps for SmarterASP.NET here
+    # You'll need to configure FTP credentials as GitHub Secrets
+    # - name: Deploy to SmarterASP.NET
+    #   uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+    #   with:
+    #     server: ${{ secrets.FTP_SERVER }}
+    #     username: ${{ secrets.FTP_USERNAME }}
+    #     password: ${{ secrets.FTP_PASSWORD }}
+    #     local-dir: ./deploy/web/
+    #     server-dir: /

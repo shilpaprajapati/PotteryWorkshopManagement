@@ -1,0 +1,10 @@
+<Solution>
+  <Folder Name="/PotteryWorkshop.Web.Server/">
+    <Project Path="PotteryWorkshop.Web.Server/PotteryWorkshop.Web.csproj" />
+  </Folder>
+  <Project Path="PotteryWorkshop.API/PotteryWorkshop.API.csproj" />
+  <Project Path="PotteryWorkshop.Application/PotteryWorkshop.Application.csproj" />
+  <Project Path="PotteryWorkshop.Domain/PotteryWorkshop.Domain.csproj" />
+  <Project Path="PotteryWorkshop.Infrastructure/PotteryWorkshop.Infrastructure.csproj" />
+  <Project Path="PotteryWorkshop.Web.Client/PotteryWorkshop.Web.Client.csproj" />
+</Solution>

@@ -1,0 +1,238 @@
+﻿@page "/"
+
+<PageTitle>Pottery Workshop - Mud, Love & Laughter</PageTitle>
+
+<MudContainer MaxWidth="MaxWidth.False" Class="pa-0">
+    <!-- Hero Section -->
+    <MudPaper Elevation="0" Class="hero-section" Style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 600px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden;">
+        <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: url('https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=1600') center/cover; opacity: 0.3;"></div>
+        <MudContainer MaxWidth="MaxWidth.Large" Style="position: relative; z-index: 1;">
+            <MudStack Spacing="4" AlignItems="AlignItems.Center" Class="text-center" Style="color: white;">
+                <MudText Typo="Typo.h1" Style="font-weight: 700; font-size: 3.5rem; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">
+                    🌿 Mud, Love & Laughter 🌿
+                </MudText>
+                <MudText Typo="Typo.h5" Style="font-weight: 400; max-width: 700px; text-shadow: 1px 1px 2px rgba(0,0,0,0.3);">
+                    Bond with your partner, friend, or family in a creative escape. Experience the joy of pottery making!
+                </MudText>
+                <MudButton Variant="Variant.Filled" Color="Color.Warning" Size="Size.Large" Href="/workshops" Style="padding: 15px 40px; font-size: 1.2rem; margin-top: 20px;">
+                    Book Your Workshop Now
+                </MudButton>
+            </MudStack>
+        </MudContainer>
+    </MudPaper>
+
+    <!-- Featured Workshops -->
+    <MudContainer MaxWidth="MaxWidth.Large" Class="my-8">
+        <MudText Typo="Typo.h3" Align="Align.Center" Class="mb-6" Style="font-weight: 700; color: #764ba2;">
+            ✨ Signature Experiences
+        </MudText>
+        
+        <MudGrid Spacing="4">
+            <!-- Workshop 7.0 -->
+            <MudItem xs="12" md="4">
+                <MudCard Elevation="3" Style="height: 100%; transition: transform 0.3s;">
+                    <MudCardMedia Image="https://images.unsplash.com/photo-1493106641515-6b5631de4bb9?w=800" Height="250" />
+                    <MudCardContent>
+                        <MudStack Spacing="2">
+                            <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
+                                <MudText Typo="Typo.h5" Style="font-weight: 700;">⭐ 7.0 Premium</MudText>
+                                <MudText Typo="Typo.h6" Color="Color.Success" Style="font-weight: 700;">₹7000</MudText>
+                            </MudStack>
+                            <MudText Typo="Typo.body2" Color="Color.Secondary">3 hours • Complete Experience</MudText>
+                            <MudDivider />
+                            <MudText Typo="Typo.body2">
+                                • Pro photos + cinematic video<br/>
+                                • 2 reels | 50–70 DSLR shots<br/>
+                                • Ceramic painting<br/>
+                                • Pottery wheel + hand-building<br/>
+                                • Fired & glazed product
+                            </MudText>
+                        </MudStack>
+                    </MudCardContent>
+                    <MudCardActions>
+                        <MudButton Variant="Variant.Filled" Color="Color.Primary" FullWidth="true" Href="/workshops">
+                            Book Now
+                        </MudButton>
+                    </MudCardActions>
+                </MudCard>
+            </MudItem>
+
+            <!-- Workshop 5.0 -->
+            <MudItem xs="12" md="4">
+                <MudCard Elevation="3" Style="height: 100%;">
+                    <MudCardMedia Image="https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?w=800" Height="250" />
+                    <MudCardContent>
+                        <MudStack Spacing="2">
+                            <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
+                                <MudText Typo="Typo.h5" Style="font-weight: 700;">⭐ 5.0 Deluxe</MudText>
+                                <MudText Typo="Typo.h6" Color="Color.Info" Style="font-weight: 700;">₹5000</MudText>
+                            </MudStack>
+                            <MudText Typo="Typo.body2" Color="Color.Secondary">3 hours • Professional</MudText>
+                            <MudDivider />
+                            <MudText Typo="Typo.body2">
+                                • Pro photos + video<br/>
+                                • 1 reel | 40–50 DSLR shots<br/>
+                                • Pottery wheel + hand-building<br/>
+                                • Personal team guidance<br/>
+                                • Fired & finished product
+                            </MudText>
+                        </MudStack>
+                    </MudCardContent>
+                    <MudCardActions>
+                        <MudButton Variant="Variant.Filled" Color="Color.Primary" FullWidth="true" Href="/workshops">
+                            Book Now
+                        </MudButton>
+                    </MudCardActions>
+                </MudCard>
+            </MudItem>
+
+            <!-- Workshop 4.0 -->
+            <MudItem xs="12" md="4">
+                <MudCard Elevation="3" Style="height: 100%;">
+                    <MudCardMedia Image="https://images.unsplash.com/photo-1610701596007-11502861dcfa?w=800" Height="250" />
+                    <MudCardContent>
+                        <MudStack Spacing="2">
+                            <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
+                                <MudText Typo="Typo.h5" Style="font-weight: 700;">⭐ 4.0 Artistic</MudText>
+                                <MudText Typo="Typo.h6" Color="Color.Warning" Style="font-weight: 700;">₹4000</MudText>
+                            </MudStack>
+                            <MudText Typo="Typo.body2" Color="Color.Secondary">2 hours • Creative</MudText>
+                            <MudDivider />
+                            <MudText Typo="Typo.body2">
+                                • Artistic photos + video<br/>
+                                • 1 reel | 35–40 DSLR shots<br/>
+                                • Pottery wheel + hand-building<br/>
+                                • Team guidance<br/>
+                                • Finished product
+                            </MudText>
+                        </MudStack>
+                    </MudCardContent>
+                    <MudCardActions>
+                        <MudButton Variant="Variant.Filled" Color="Color.Primary" FullWidth="true" Href="/workshops">
+                            Book Now
+                        </MudButton>
+                    </MudCardActions>
+                </MudCard>
+            </MudItem>
+        </MudGrid>
+    </MudContainer>
+
+    <!-- Regular Workshops -->
+    <MudPaper Elevation="0" Class="pa-8" Style="background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);">
+        <MudContainer MaxWidth="MaxWidth.Large">
+            <MudText Typo="Typo.h3" Align="Align.Center" Class="mb-6" Style="font-weight: 700;">
+                Regular Workshops
+            </MudText>
+            
+            <MudGrid Spacing="3">
+                <MudItem xs="12" md="4">
+                    <MudCard Elevation="2">
+                        <MudCardContent>
+                            <MudText Typo="Typo.h6" Style="font-weight: 700;">2 Hours Slot</MudText>
+                            <MudText Typo="Typo.body2" Color="Color.Secondary" Class="mb-3">Basic to Intermediate</MudText>
+                            <MudText Typo="Typo.body2">
+                                • Basic introduction<br/>
+                                • Glass/Bowl<br/>
+                                • Chai Kulhad<br/>
+                                • Wheel cleaning
+                            </MudText>
+                            <MudDivider Class="my-3" />
+                            <MudText Typo="Typo.body1" Style="font-weight: 600;">
+                                1 Wheel 1 Person: ₹1200<br/>
+                                1 Wheel 2 Person: ₹1700
+                            </MudText>
+                        </MudCardContent>
+                    </MudCard>
+                </MudItem>
+
+                <MudItem xs="12" md="4">
+                    <MudCard Elevation="2">
+                        <MudCardContent>
+                            <MudText Typo="Typo.h6" Style="font-weight: 700;">3 Hours Slot</MudText>
+                            <MudText Typo="Typo.body2" Color="Color.Secondary" Class="mb-3">Advanced Experience</MudText>
+                            <MudText Typo="Typo.body2">
+                                • Includes 2 hrs items<br/>
+                                • Medium sized Bowl<br/>
+                                • Mini flower pot<br/>
+                                • Advanced hand building
+                            </MudText>
+                            <MudDivider Class="my-3" />
+                            <MudText Typo="Typo.body1" Style="font-weight: 600;">
+                                1 Wheel 1 Person: ₹1900<br/>
+                                1 Wheel 2 Person: ₹2200
+                            </MudText>
+                        </MudCardContent>
+                    </MudCard>
+                </MudItem>
+
+                <MudItem xs="12" md="4">
+                    <MudCard Elevation="2">
+                        <MudCardContent>
+                            <MudText Typo="Typo.h6" Style="font-weight: 700;">1 Hour Slot (Kids)</MudText>
+                            <MudText Typo="Typo.body2" Color="Color.Secondary" Class="mb-3">Children Special</MudText>
+                            <MudText Typo="Typo.body2">
+                                • Basic introduction<br/>
+                                • 3 types of Diya 🪔<br/>
+                                • Wheel cleaning<br/>
+                                • Fun & Creative
+                            </MudText>
+                            <MudDivider Class="my-3" />
+                            <MudText Typo="Typo.body1" Style="font-weight: 600;">
+                                1 Wheel 1 Person: ₹750<br/>
+                                1 Wheel 2 Person: ₹550/person
+                            </MudText>
+                        </MudCardContent>
+                    </MudCard>
+                </MudItem>
+            </MudGrid>
+
+            <MudStack AlignItems="AlignItems.Center" Class="mt-6">
+                <MudButton Variant="Variant.Filled" Color="Color.Primary" Size="Size.Large" Href="/workshops">
+                    View All Workshops & Book Now
+                </MudButton>
+            </MudStack>
+        </MudContainer>
+    </MudPaper>
+
+    <!-- Why Choose Us -->
+    <MudContainer MaxWidth="MaxWidth.Large" Class="my-8">
+        <MudText Typo="Typo.h3" Align="Align.Center" Class="mb-6" Style="font-weight: 700;">
+            Why Choose Us?
+        </MudText>
+        
+        <MudGrid Spacing="4">
+            <MudItem xs="12" sm="6" md="3">
+                <MudPaper Elevation="0" Class="pa-4 text-center">
+                    <MudIcon Icon="@Icons.Material.Filled.Camera" Size="Size.Large" Color="Color.Primary" />
+                    <MudText Typo="Typo.h6" Class="mt-2">Professional Photography</MudText>
+                    <MudText Typo="Typo.body2">DSLR shots & reels to capture your memories</MudText>
+                </MudPaper>
+            </MudItem>
+            <MudItem xs="12" sm="6" md="3">
+                <MudPaper Elevation="0" Class="pa-4 text-center">
+                    <MudIcon Icon="@Icons.Material.Filled.People" Size="Size.Large" Color="Color.Secondary" />
+                    <MudText Typo="Typo.h6" Class="mt-2">Expert Guidance</MudText>
+                    <MudText Typo="Typo.body2">Personal team support throughout</MudText>
+                </MudPaper>
+            </MudItem>
+            <MudItem xs="12" sm="6" md="3">
+                <MudPaper Elevation="0" Class="pa-4 text-center">
+                    <MudIcon Icon="@Icons.Material.Filled.Favorite" Size="Size.Large" Color="Color.Error" />
+                    <MudText Typo="Typo.h6" Class="mt-2">Keep Your Creations</MudText>
+                    <MudText Typo="Typo.body2">Take home fired & glazed products</MudText>
+                </MudPaper>
+            </MudItem>
+            <MudItem xs="12" sm="6" md="3">
+                <MudPaper Elevation="0" Class="pa-4 text-center">
+                    <MudIcon Icon="@Icons.Material.Filled.Star" Size="Size.Large" Color="Color.Warning" />
+                    <MudText Typo="Typo.h6" Class="mt-2">Unique Experience</MudText>
+                    <MudText Typo="Typo.body2">Perfect for couples, friends & families</MudText>
+                </MudPaper>
+            </MudItem>
+        </MudGrid>
+    </MudContainer>
+</MudContainer>
+
+@code {
+    
+}

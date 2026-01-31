@@ -1,0 +1,215 @@
+@page "/admin/dashboard"
+
+<PageTitle>Admin Dashboard - Pottery Workshop</PageTitle>
+
+<MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="my-8">
+    <MudText Typo="Typo.h3" Class="mb-6" Style="font-weight: 700; color: #764ba2;">
+        <MudIcon Icon="@Icons.Material.Filled.Dashboard" Class="mr-2" />
+        Dashboard
+    </MudText>
+
+    <!-- Stats Cards -->
+    <MudGrid Spacing="3" Class="mb-6">
+        <MudItem xs="12" sm="6" md="3">
+            <MudCard Elevation="3" Style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                <MudCardContent>
+                    <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
+                        <div>
+                            <MudText Typo="Typo.body2" Style="opacity: 0.9;">Today's Bookings</MudText>
+                            <MudText Typo="Typo.h4" Style="font-weight: 700;">12</MudText>
+                        </div>
+                        <MudIcon Icon="@Icons.Material.Filled.Today" Size="Size.Large" />
+                    </MudStack>
+                </MudCardContent>
+            </MudCard>
+        </MudItem>
+
+        <MudItem xs="12" sm="6" md="3">
+            <MudCard Elevation="3" Style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white;">
+                <MudCardContent>
+                    <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
+                        <div>
+                            <MudText Typo="Typo.body2" Style="opacity: 0.9;">Total Revenue</MudText>
+                            <MudText Typo="Typo.h4" Style="font-weight: 700;">₹45,000</MudText>
+                        </div>
+                        <MudIcon Icon="@Icons.Material.Filled.Payments" Size="Size.Large" />
+                    </MudStack>
+                </MudCardContent>
+            </MudCard>
+        </MudItem>
+
+        <MudItem xs="12" sm="6" md="3">
+            <MudCard Elevation="3" Style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: white;">
+                <MudCardContent>
+                    <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
+                        <div>
+                            <MudText Typo="Typo.body2" Style="opacity: 0.9;">Active Workshops</MudText>
+                            <MudText Typo="Typo.h4" Style="font-weight: 700;">6</MudText>
+                        </div>
+                        <MudIcon Icon="@Icons.Material.Filled.Event" Size="Size.Large" />
+                    </MudStack>
+                </MudCardContent>
+            </MudCard>
+        </MudItem>
+
+        <MudItem xs="12" sm="6" md="3">
+            <MudCard Elevation="3" Style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); color: white;">
+                <MudCardContent>
+                    <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
+                        <div>
+                            <MudText Typo="Typo.body2" Style="opacity: 0.9;">Total Customers</MudText>
+                            <MudText Typo="Typo.h4" Style="font-weight: 700;">234</MudText>
+                        </div>
+                        <MudIcon Icon="@Icons.Material.Filled.People" Size="Size.Large" />
+                    </MudStack>
+                </MudCardContent>
+            </MudCard>
+        </MudItem>
+    </MudGrid>
+
+    <MudGrid Spacing="3">
+        <!-- Today's Schedule -->
+        <MudItem xs="12" md="8">
+            <MudCard Elevation="3">
+                <MudCardHeader>
+                    <CardHeaderContent>
+                        <MudText Typo="Typo.h6">
+                            <MudIcon Icon="@Icons.Material.Filled.CalendarToday" Class="mr-2" />
+                            Today's Schedule
+                        </MudText>
+                    </CardHeaderContent>
+                </MudCardHeader>
+                <MudCardContent>
+                    <MudTimeline TimelineAlign="TimelineAlign.Start" TimelinePosition="TimelinePosition.Start">
+                        <MudTimelineItem Color="Color.Success" Size="Size.Small">
+                            <ItemOpposite>
+                                <MudText Color="Color.Success" Typo="Typo.body2">10:00 AM</MudText>
+                            </ItemOpposite>
+                            <ItemContent>
+                                <MudText Typo="Typo.body1" Style="font-weight: 600;">2 Hours Basic Slot</MudText>
+                                <MudText Typo="Typo.body2" Color="Color.Secondary">2 participants • Booking #WS001</MudText>
+                            </ItemContent>
+                        </MudTimelineItem>
+                        <MudTimelineItem Color="Color.Primary" Size="Size.Small">
+                            <ItemOpposite>
+                                <MudText Color="Color.Primary" Typo="Typo.body2">2:00 PM</MudText>
+                            </ItemOpposite>
+                            <ItemContent>
+                                <MudText Typo="Typo.body1" Style="font-weight: 600;">Premium Experience</MudText>
+                                <MudText Typo="Typo.body2" Color="Color.Secondary">2 participants • Booking #WS002</MudText>
+                            </ItemContent>
+                        </MudTimelineItem>
+                        <MudTimelineItem Color="Color.Info" Size="Size.Small">
+                            <ItemOpposite>
+                                <MudText Color="Color.Info" Typo="Typo.body2">5:00 PM</MudText>
+                            </ItemOpposite>
+                            <ItemContent>
+                                <MudText Typo="Typo.body1" Style="font-weight: 600;">3 Hours Advanced Slot</MudText>
+                                <MudText Typo="Typo.body2" Color="Color.Secondary">1 participant • Booking #WS003</MudText>
+                            </ItemContent>
+                        </MudTimelineItem>
+                    </MudTimeline>
+                </MudCardContent>
+            </MudCard>
+        </MudItem>
+
+        <!-- Quick Actions -->
+        <MudItem xs="12" md="4">
+            <MudCard Elevation="3">
+                <MudCardHeader>
+                    <CardHeaderContent>
+                        <MudText Typo="Typo.h6">
+                            <MudIcon Icon="@Icons.Material.Filled.Bolt" Class="mr-2" />
+                            Quick Actions
+                        </MudText>
+                    </CardHeaderContent>
+                </MudCardHeader>
+                <MudCardContent>
+                    <MudStack Spacing="2">
+                        <MudButton Variant="Variant.Outlined" 
+                                   Color="Color.Primary" 
+                                   StartIcon="@Icons.Material.Filled.Add" 
+                                   FullWidth="true"
+                                   Href="/admin/workshops">
+                            Create Workshop
+                        </MudButton>
+                        <MudButton Variant="Variant.Outlined" 
+                                   Color="Color.Secondary" 
+                                   StartIcon="@Icons.Material.Filled.Schedule" 
+                                   FullWidth="true"
+                                   Href="/admin/slots">
+                            Manage Slots
+                        </MudButton>
+                        <MudButton Variant="Variant.Outlined" 
+                                   Color="Color.Info" 
+                                   StartIcon="@Icons.Material.Filled.QrCodeScanner" 
+                                   FullWidth="true">
+                            Scan QR Code
+                        </MudButton>
+                        <MudButton Variant="Variant.Outlined" 
+                                   Color="Color.Success" 
+                                   StartIcon="@Icons.Material.Filled.Image" 
+                                   FullWidth="true"
+                                   Href="/admin/hero-images">
+                            Manage Hero Images
+                        </MudButton>
+                    </MudStack>
+                </MudCardContent>
+            </MudCard>
+
+            <!-- Recent Payments -->
+            <MudCard Elevation="3" Class="mt-3">
+                <MudCardHeader>
+                    <CardHeaderContent>
+                        <MudText Typo="Typo.h6">
+                            <MudIcon Icon="@Icons.Material.Filled.Receipt" Class="mr-2" />
+                            Recent Payments
+                        </MudText>
+                    </CardHeaderContent>
+                </MudCardHeader>
+                <MudCardContent>
+                    <MudList T="string" Dense="true">
+                        <MudListItem T="string">
+                            <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
+                                <div>
+                                    <MudText Typo="Typo.body2">WS001</MudText>
+                                    <MudText Typo="Typo.caption" Color="Color.Secondary">Razorpay</MudText>
+                                </div>
+                                <MudText Typo="Typo.body2" Color="Color.Success" Style="font-weight: 600;">₹1,700</MudText>
+                            </MudStack>
+                        </MudListItem>
+                        <MudDivider />
+                        <MudListItem T="string">
+                            <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
+                                <div>
+                                    <MudText Typo="Typo.body2">WS002</MudText>
+                                    <MudText Typo="Typo.caption" Color="Color.Secondary">Cashfree</MudText>
+                                </div>
+                                <MudText Typo="Typo.body2" Color="Color.Success" Style="font-weight: 600;">₹7,000</MudText>
+                            </MudStack>
+                        </MudListItem>
+                        <MudDivider />
+                        <MudListItem T="string">
+                            <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
+                                <div>
+                                    <MudText Typo="Typo.body2">WS003</MudText>
+                                    <MudText Typo="Typo.caption" Color="Color.Secondary">Razorpay</MudText>
+                                </div>
+                                <MudText Typo="Typo.body2" Color="Color.Success" Style="font-weight: 600;">₹1,900</MudText>
+                            </MudStack>
+                        </MudListItem>
+                    </MudList>
+                </MudCardContent>
+                <MudCardActions>
+                    <MudButton Variant="Variant.Text" Color="Color.Primary" FullWidth="true" Href="/admin/payments">
+                        View All Payments
+                    </MudButton>
+                </MudCardActions>
+            </MudCard>
+        </MudItem>
+    </MudGrid>
+</MudContainer>
+
+@code {
+    
+}
