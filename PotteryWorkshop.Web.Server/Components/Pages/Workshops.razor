@@ -1,0 +1,188 @@
+@page "/workshops"
+@using PotteryWorkshop.Application.DTOs
+
+<PageTitle>Our Workshops - Pottery Workshop</PageTitle>
+
+<MudContainer MaxWidth="MaxWidth.Large" Class="my-8">
+    <MudText Typo="Typo.h3" Align="Align.Center" Class="mb-2" Style="font-weight: 700; color: #764ba2;">
+        Available Workshops
+    </MudText>
+    <MudText Typo="Typo.body1" Align="Align.Center" Class="mb-8" Color="Color.Secondary">
+        Choose your perfect pottery experience
+    </MudText>
+
+    <MudGrid Spacing="4">
+        @foreach (var workshop in _workshops)
+        {
+            <MudItem xs="12" md="6" lg="4">
+                <MudCard Elevation="4" Style="height: 100%; transition: all 0.3s ease; cursor: pointer;" 
+                         @onclick="@(() => NavigateToBooking(workshop.Id))">
+                    @if (!string.IsNullOrEmpty(workshop.ImageUrl))
+                    {
+                        <MudCardMedia Image="@workshop.ImageUrl" Height="200" />
+                    }
+                    else
+                    {
+                        <div style="height: 200px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center;">
+                            <MudIcon Icon="@Icons.Material.Filled.Palette" Size="Size.Large" Style="color: white; font-size: 60px;" />
+                        </div>
+                    }
+                    <MudCardContent>
+                        <MudStack Spacing="2">
+                            <MudText Typo="Typo.h5" Style="font-weight: 700;">@workshop.Name</MudText>
+                            <MudText Typo="Typo.body2" Color="Color.Secondary">
+                                @workshop.DurationInMinutes mins • Max @workshop.MaxCapacity people
+                            </MudText>
+                            <MudDivider />
+                            <MudText Typo="Typo.body2">@workshop.Description</MudText>
+                            @if (!string.IsNullOrEmpty(workshop.Inclusions))
+                            {
+                                <MudText Typo="Typo.body2" Style="white-space: pre-line;">
+                                    <strong>Inclusions:</strong><br/>
+                                    @workshop.Inclusions
+                                </MudText>
+                            }
+                            <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center" Class="mt-2">
+                                <div>
+                                    <MudText Typo="Typo.body2" Color="Color.Secondary">Price:</MudText>
+                                    <MudText Typo="Typo.h6" Color="Color.Primary" Style="font-weight: 700;">
+                                        ₹@workshop.PricePerPerson / person
+                                    </MudText>
+                                    @if (workshop.PriceForTwo > 0)
+                                    {
+                                        <MudText Typo="Typo.body2" Color="Color.Success">
+                                            ₹@workshop.PriceForTwo for 2
+                                        </MudText>
+                                    }
+                                </div>
+                            </MudStack>
+                        </MudStack>
+                    </MudCardContent>
+                    <MudCardActions>
+                        <MudButton Variant="Variant.Filled" Color="Color.Primary" FullWidth="true" 
+                                   Href="@($"/booking/{workshop.Id}")">
+                            Book Now
+                        </MudButton>
+                        @if (!string.IsNullOrEmpty(workshop.InstagramReelUrl))
+                        {
+                            <MudButton Variant="Variant.Text" Color="Color.Secondary" FullWidth="true" 
+                                       Href="@workshop.InstagramReelUrl" Target="_blank">
+                                <MudIcon Icon="@Icons.Custom.Brands.Instagram" Class="mr-1" /> View Reel
+                            </MudButton>
+                        }
+                    </MudCardActions>
+                </MudCard>
+            </MudItem>
+        }
+    </MudGrid>
+
+    @if (!_workshops.Any())
+    {
+        <MudPaper Elevation="0" Class="pa-8 text-center">
+            <MudIcon Icon="@Icons.Material.Filled.EventBusy" Size="Size.Large" Color="Color.Default" />
+            <MudText Typo="Typo.h6" Class="mt-4">No workshops available at the moment</MudText>
+            <MudText Typo="Typo.body2" Color="Color.Secondary">Please check back later</MudText>
+        </MudPaper>
+    }
+</MudContainer>
+
+@code {
+    private List<WorkshopDto> _workshops = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        // TODO: Load from API
+        // For now, using mock data
+        _workshops = new List<WorkshopDto>
+        {
+            new WorkshopDto
+            {
+                Id = Guid.NewGuid(),
+                Name = "⭐ 7.0 Premium Experience",
+                Description = "Complete pottery experience with professional photography and videography",
+                DurationInMinutes = 180,
+                MaxCapacity = 2,
+                PricePerPerson = 7000,
+                PriceForTwo = 7000,
+                ImageUrl = "https://images.unsplash.com/photo-1493106641515-6b5631de4bb9?w=800",
+                Inclusions = "• Pro photos + cinematic video\n• 2 reels | 50–70 DSLR shots\n• Ceramic painting\n• Pottery wheel + hand-building\n• Fired & glazed product",
+                InstagramReelUrl = "https://www.instagram.com/reel/DL6pQacRGPE/",
+                IsActive = true
+            },
+            new WorkshopDto
+            {
+                Id = Guid.NewGuid(),
+                Name = "⭐ 5.0 Deluxe Experience",
+                Description = "Professional pottery experience with photos and video documentation",
+                DurationInMinutes = 180,
+                MaxCapacity = 2,
+                PricePerPerson = 5000,
+                PriceForTwo = 5000,
+                ImageUrl = "https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?w=800",
+                Inclusions = "• Pro photos + video\n• 1 reel | 40–50 DSLR shots\n• Pottery wheel + hand-building\n• Personal team guidance\n• Fired & finished product",
+                InstagramReelUrl = "https://www.instagram.com/reel/DAxrw3VSjM2/",
+                IsActive = true
+            },
+            new WorkshopDto
+            {
+                Id = Guid.NewGuid(),
+                Name = "⭐ 4.0 Artistic Experience",
+                Description = "Creative pottery session with artistic photography",
+                DurationInMinutes = 120,
+                MaxCapacity = 2,
+                PricePerPerson = 4000,
+                PriceForTwo = 4000,
+                ImageUrl = "https://images.unsplash.com/photo-1610701596007-11502861dcfa?w=800",
+                Inclusions = "• Artistic photos + video\n• 1 reel | 35–40 DSLR shots\n• Pottery wheel + hand-building\n• Team guidance",
+                InstagramReelUrl = "https://www.instagram.com/reel/C_Kpu0SypnT/",
+                IsActive = true
+            },
+            new WorkshopDto
+            {
+                Id = Guid.NewGuid(),
+                Name = "2 Hours Basic Slot",
+                Description = "Perfect introduction to pottery making",
+                DurationInMinutes = 120,
+                MaxCapacity = 2,
+                PricePerPerson = 1200,
+                PriceForTwo = 1700,
+                ImageUrl = "https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=800",
+                Inclusions = "• Basic introduction\n• Glass/Bowl\n• Chai Kulhad\n• Wheel cleaning",
+                IsActive = true
+            },
+            new WorkshopDto
+            {
+                Id = Guid.NewGuid(),
+                Name = "3 Hours Advanced Slot",
+                Description = "Extended pottery session with advanced techniques",
+                DurationInMinutes = 180,
+                MaxCapacity = 2,
+                PricePerPerson = 1900,
+                PriceForTwo = 2200,
+                ImageUrl = "https://images.unsplash.com/photo-1565123409695-7b5ef meanwhile7589?w=800",
+                Inclusions = "• Includes 2 hrs items\n• Medium sized Bowl\n• Mini flower pot\n• Advanced hand building",
+                IsActive = true
+            },
+            new WorkshopDto
+            {
+                Id = Guid.NewGuid(),
+                Name = "1 Hour Kids Special",
+                Description = "Fun and creative pottery session for children",
+                DurationInMinutes = 60,
+                MaxCapacity = 2,
+                PricePerPerson = 750,
+                PriceForTwo = 1100,
+                ImageUrl = "https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=800",
+                Inclusions = "• Basic introduction\n• 3 types of Diya 🪔\n• Wheel cleaning\n• Fun activities",
+                IsActive = true
+            }
+        };
+
+        await Task.CompletedTask;
+    }
+
+    private void NavigateToBooking(Guid workshopId)
+    {
+        // Navigation will be handled by the button click
+    }
+}
