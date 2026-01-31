@@ -1,6 +1,7 @@
 using MudBlazor.Services;
 using PotteryWorkshop.Application;
 using PotteryWorkshop.Infrastructure;
+using PotteryWorkshop.Infrastructure.Data;
 using PotteryWorkshop.Web.Client.Pages;
 using PotteryWorkshop.Web.Components;
 
@@ -19,6 +20,22 @@ builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);
 
 var app = builder.Build();
+
+// Seed database
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    try
+    {
+        var context = services.GetRequiredService<ApplicationDbContext>();
+        await DbInitializer.SeedAsync(context);
+    }
+    catch (Exception ex)
+    {
+        var logger = services.GetRequiredService<ILogger<Program>>();
+        logger.LogError(ex, "An error occurred while seeding the database.");
+    }
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
