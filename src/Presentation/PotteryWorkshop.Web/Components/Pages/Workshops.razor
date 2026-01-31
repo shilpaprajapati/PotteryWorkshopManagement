@@ -1,0 +1,114 @@
+@page "/workshops"
+@rendermode InteractiveServer
+@inject IWorkshopService WorkshopService
+@inject IDialogService DialogService
+@inject ISnackbar Snackbar
+
+<PageTitle>Workshops</PageTitle>
+
+<MudText Typo="Typo.h3" GutterBottom="true">Workshops</MudText>
+
+<MudCard Class="mb-4">
+    <MudCardContent>
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add" OnClick="OpenCreateDialog">
+            Create Workshop
+        </MudButton>
+    </MudCardContent>
+</MudCard>
+
+@if (_isLoading)
+{
+    <MudProgressCircular Color="Color.Primary" Indeterminate="true" />
+}
+else if (_workshops == null || !_workshops.Any())
+{
+    <MudAlert Severity="Severity.Info">No workshops found. Create your first workshop!</MudAlert>
+}
+else
+{
+    <MudGrid>
+        @foreach (var workshop in _workshops)
+        {
+            <MudItem xs="12" sm="6" md="4">
+                <MudCard Elevation="2">
+                    <MudCardContent>
+                        <MudText Typo="Typo.h5">@workshop.Title</MudText>
+                        <MudText Typo="Typo.body2" Color="Color.Secondary">@workshop.Instructor</MudText>
+                        <MudDivider Class="my-2" />
+                        <MudText Typo="Typo.body2">@workshop.Description</MudText>
+                        <MudText Typo="Typo.body2" Class="mt-2">
+                            <strong>Location:</strong> @workshop.Location
+                        </MudText>
+                        <MudText Typo="Typo.body2">
+                            <strong>Date:</strong> @workshop.StartDate.ToString("MMM dd, yyyy") - @workshop.EndDate.ToString("MMM dd, yyyy")
+                        </MudText>
+                        <MudText Typo="Typo.body2">
+                            <strong>Price:</strong> $@workshop.Price
+                        </MudText>
+                        <MudText Typo="Typo.body2">
+                            <strong>Available Slots:</strong> @workshop.AvailableSlots / @workshop.MaxParticipants
+                        </MudText>
+                        <MudChip T="string" Color="@(workshop.IsActive ? Color.Success : Color.Default)" Size="Size.Small" Class="mt-2">
+                            @(workshop.IsActive ? "Active" : "Inactive")
+                        </MudChip>
+                    </MudCardContent>
+                    <MudCardActions>
+                        <MudButton Variant="Variant.Text" Color="Color.Primary" OnClick="@(() => EditWorkshop(workshop.Id))">Edit</MudButton>
+                        <MudButton Variant="Variant.Text" Color="Color.Error" OnClick="@(() => DeleteWorkshop(workshop.Id))">Delete</MudButton>
+                    </MudCardActions>
+                </MudCard>
+            </MudItem>
+        }
+    </MudGrid>
+}
+
+@code {
+    private IEnumerable<WorkshopDto>? _workshops;
+    private bool _isLoading = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadWorkshops();
+    }
+
+    private async Task LoadWorkshops()
+    {
+        _isLoading = true;
+        try
+        {
+            _workshops = await WorkshopService.GetAllWorkshopsAsync();
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add($"Error loading workshops: {ex.Message}", Severity.Error);
+        }
+        finally
+        {
+            _isLoading = false;
+        }
+    }
+
+    private void OpenCreateDialog()
+    {
+        Snackbar.Add("Create workshop dialog not yet implemented", Severity.Info);
+    }
+
+    private void EditWorkshop(int id)
+    {
+        Snackbar.Add($"Edit workshop {id} not yet implemented", Severity.Info);
+    }
+
+    private async Task DeleteWorkshop(int id)
+    {
+        try
+        {
+            await WorkshopService.DeleteWorkshopAsync(id);
+            await LoadWorkshops();
+            Snackbar.Add("Workshop deleted successfully", Severity.Success);
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add($"Error deleting workshop: {ex.Message}", Severity.Error);
+        }
+    }
+}

@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("PotteryWorkshop.Domain.Tests")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0db4eeb92442c906432c1eea19c24e2b68154f47")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c09abf298f4eaed6b4b1240f6b7d8b76ab487601")]
 [assembly: System.Reflection.AssemblyProductAttribute("PotteryWorkshop.Domain.Tests")]
 [assembly: System.Reflection.AssemblyTitleAttribute("PotteryWorkshop.Domain.Tests")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

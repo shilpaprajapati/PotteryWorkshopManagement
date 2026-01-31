@@ -1,3 +1,6 @@
+using MudBlazor.Services;
+using PotteryWorkshop.Application;
+using PotteryWorkshop.Infrastructure;
 using PotteryWorkshop.Web.Components;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -5,6 +8,13 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
+
+// Add MudBlazor services
+builder.Services.AddMudServices();
+
+// Add Application and Infrastructure services
+builder.Services.AddApplication();
+builder.Services.AddInfrastructure(builder.Configuration);
 
 var app = builder.Build();
 

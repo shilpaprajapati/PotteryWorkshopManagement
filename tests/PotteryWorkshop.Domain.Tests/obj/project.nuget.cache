@@ -1,10 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "rk5IIy8hAFA=",
+  "dgSpecHash": "5EBPR7cjZak=",
   "success": true,
   "projectFilePath": "/home/runner/work/PotteryWorkshopManagement/PotteryWorkshopManagement/tests/PotteryWorkshop.Domain.Tests/PotteryWorkshop.Domain.Tests.csproj",
   "expectedPackageFiles": [
     "/home/runner/.nuget/packages/coverlet.collector/6.0.0/coverlet.collector.6.0.0.nupkg.sha512",
+    "/home/runner/.nuget/packages/fluentassertions/8.8.0/fluentassertions.8.8.0.nupkg.sha512",
     "/home/runner/.nuget/packages/microsoft.codecoverage/17.8.0/microsoft.codecoverage.17.8.0.nupkg.sha512",
     "/home/runner/.nuget/packages/microsoft.net.test.sdk/17.8.0/microsoft.net.test.sdk.17.8.0.nupkg.sha512",
     "/home/runner/.nuget/packages/microsoft.netcore.platforms/1.1.0/microsoft.netcore.platforms.1.1.0.nupkg.sha512",

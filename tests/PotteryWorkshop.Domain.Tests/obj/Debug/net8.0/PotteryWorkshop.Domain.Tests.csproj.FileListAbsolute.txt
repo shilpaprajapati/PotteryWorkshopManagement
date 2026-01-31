@@ -100,3 +100,4 @@
 /home/runner/work/PotteryWorkshopManagement/PotteryWorkshopManagement/tests/PotteryWorkshop.Domain.Tests/obj/Debug/net8.0/PotteryWorkshop.Domain.Tests.pdb
 /home/runner/work/PotteryWorkshopManagement/PotteryWorkshopManagement/tests/PotteryWorkshop.Domain.Tests/obj/Debug/net8.0/PotteryWorkshop.Domain.Tests.genruntimeconfig.cache
 /home/runner/work/PotteryWorkshopManagement/PotteryWorkshopManagement/tests/PotteryWorkshop.Domain.Tests/obj/Debug/net8.0/ref/PotteryWorkshop.Domain.Tests.dll
+/home/runner/work/PotteryWorkshopManagement/PotteryWorkshopManagement/tests/PotteryWorkshop.Domain.Tests/bin/Debug/net8.0/FluentAssertions.dll
