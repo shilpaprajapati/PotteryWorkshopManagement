@@ -1,0 +1,106 @@
+@page "/customers"
+@rendermode InteractiveServer
+@inject ICustomerService CustomerService
+@inject ISnackbar Snackbar
+
+<PageTitle>Customers</PageTitle>
+
+<MudText Typo="Typo.h3" GutterBottom="true">Customers</MudText>
+
+<MudCard Class="mb-4">
+    <MudCardContent>
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add">
+            Add Customer
+        </MudButton>
+    </MudCardContent>
+</MudCard>
+
+@if (_isLoading)
+{
+    <MudProgressCircular Color="Color.Primary" Indeterminate="true" />
+}
+else if (_customers == null || !_customers.Any())
+{
+    <MudAlert Severity="Severity.Info">No customers found. Add your first customer!</MudAlert>
+}
+else
+{
+    <MudTable Items="@_customers" Hover="true" Striped="true" Elevation="4" Filter="new Func<CustomerDto,bool>(FilterFunc)">
+        <ToolBarContent>
+            <MudText Typo="Typo.h6">Customer List</MudText>
+            <MudSpacer />
+            <MudTextField @bind-Value="_searchString" Placeholder="Search" Adornment="Adornment.Start" 
+                          AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+        </ToolBarContent>
+        <HeaderContent>
+            <MudTh>Name</MudTh>
+            <MudTh>Email</MudTh>
+            <MudTh>Phone</MudTh>
+            <MudTh>Actions</MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd DataLabel="Name">@context.FirstName @context.LastName</MudTd>
+            <MudTd DataLabel="Email">@context.Email</MudTd>
+            <MudTd DataLabel="Phone">@context.PhoneNumber</MudTd>
+            <MudTd>
+                <MudIconButton Icon="@Icons.Material.Filled.Edit" Color="Color.Primary" Size="Size.Small" />
+                <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Error" Size="Size.Small" OnClick="@(() => DeleteCustomer(context.Id))" />
+            </MudTd>
+        </RowTemplate>
+    </MudTable>
+}
+
+@code {
+    private IEnumerable<CustomerDto>? _customers;
+    private bool _isLoading = true;
+    private string _searchString = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadCustomers();
+    }
+
+    private async Task LoadCustomers()
+    {
+        _isLoading = true;
+        try
+        {
+            _customers = await CustomerService.GetAllCustomersAsync();
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add($"Error loading customers: {ex.Message}", Severity.Error);
+        }
+        finally
+        {
+            _isLoading = false;
+        }
+    }
+
+    private async Task DeleteCustomer(int id)
+    {
+        try
+        {
+            await CustomerService.DeleteCustomerAsync(id);
+            await LoadCustomers();
+            Snackbar.Add("Customer deleted successfully", Severity.Success);
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add($"Error deleting customer: {ex.Message}", Severity.Error);
+        }
+    }
+
+    private bool FilterFunc(CustomerDto customer)
+    {
+        if (string.IsNullOrWhiteSpace(_searchString))
+            return true;
+        if (customer.FirstName.Contains(_searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if (customer.LastName.Contains(_searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if (customer.Email.Contains(_searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        return false;
+    }
+}

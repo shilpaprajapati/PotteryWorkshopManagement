@@ -1,0 +1,237 @@
+{
+  "format": 1,
+  "restore": {
+    "/home/runner/work/PotteryWorkshopManagement/PotteryWorkshopManagement/tests/PotteryWorkshop.Application.Tests/PotteryWorkshop.Application.Tests.csproj": {}
+  },
+  "projects": {
+    "/home/runner/work/PotteryWorkshopManagement/PotteryWorkshopManagement/src/Core/PotteryWorkshop.Application/PotteryWorkshop.Application.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/runner/work/PotteryWorkshopManagement/PotteryWorkshopManagement/src/Core/PotteryWorkshop.Application/PotteryWorkshop.Application.csproj",
+        "projectName": "PotteryWorkshop.Application",
+        "projectPath": "/home/runner/work/PotteryWorkshopManagement/PotteryWorkshopManagement/src/Core/PotteryWorkshop.Application/PotteryWorkshop.Application.csproj",
+        "packagesPath": "/home/runner/.nuget/packages/",
+        "outputPath": "/home/runner/work/PotteryWorkshopManagement/PotteryWorkshopManagement/src/Core/PotteryWorkshop.Application/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/runner/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "/home/runner/work/PotteryWorkshopManagement/PotteryWorkshopManagement/src/Core/PotteryWorkshop.Domain/PotteryWorkshop.Domain.csproj": {
+                "projectPath": "/home/runner/work/PotteryWorkshopManagement/PotteryWorkshopManagement/src/Core/PotteryWorkshop.Domain/PotteryWorkshop.Domain.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "10.0.100"
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "AutoMapper": {
+              "target": "Package",
+              "version": "[16.0.0, )"
+            },
+            "AutoMapper.Extensions.Microsoft.DependencyInjection": {
+              "target": "Package",
+              "version": "[12.0.1, )"
+            },
+            "FluentValidation": {
+              "target": "Package",
+              "version": "[12.1.1, )"
+            },
+            "FluentValidation.DependencyInjectionExtensions": {
+              "target": "Package",
+              "version": "[12.1.1, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/10.0.102/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/home/runner/work/PotteryWorkshopManagement/PotteryWorkshopManagement/src/Core/PotteryWorkshop.Domain/PotteryWorkshop.Domain.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/runner/work/PotteryWorkshopManagement/PotteryWorkshopManagement/src/Core/PotteryWorkshop.Domain/PotteryWorkshop.Domain.csproj",
+        "projectName": "PotteryWorkshop.Domain",
+        "projectPath": "/home/runner/work/PotteryWorkshopManagement/PotteryWorkshopManagement/src/Core/PotteryWorkshop.Domain/PotteryWorkshop.Domain.csproj",
+        "packagesPath": "/home/runner/.nuget/packages/",
+        "outputPath": "/home/runner/work/PotteryWorkshopManagement/PotteryWorkshopManagement/src/Core/PotteryWorkshop.Domain/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/runner/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "10.0.100"
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/10.0.102/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/home/runner/work/PotteryWorkshopManagement/PotteryWorkshopManagement/tests/PotteryWorkshop.Application.Tests/PotteryWorkshop.Application.Tests.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/runner/work/PotteryWorkshopManagement/PotteryWorkshopManagement/tests/PotteryWorkshop.Application.Tests/PotteryWorkshop.Application.Tests.csproj",
+        "projectName": "PotteryWorkshop.Application.Tests",
+        "projectPath": "/home/runner/work/PotteryWorkshopManagement/PotteryWorkshopManagement/tests/PotteryWorkshop.Application.Tests/PotteryWorkshop.Application.Tests.csproj",
+        "packagesPath": "/home/runner/.nuget/packages/",
+        "outputPath": "/home/runner/work/PotteryWorkshopManagement/PotteryWorkshopManagement/tests/PotteryWorkshop.Application.Tests/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/runner/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "/home/runner/work/PotteryWorkshopManagement/PotteryWorkshopManagement/src/Core/PotteryWorkshop.Application/PotteryWorkshop.Application.csproj": {
+                "projectPath": "/home/runner/work/PotteryWorkshopManagement/PotteryWorkshopManagement/src/Core/PotteryWorkshop.Application/PotteryWorkshop.Application.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "10.0.100"
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "FluentAssertions": {
+              "target": "Package",
+              "version": "[8.8.0, )"
+            },
+            "Microsoft.NET.Test.Sdk": {
+              "target": "Package",
+              "version": "[17.8.0, )"
+            },
+            "Moq": {
+              "target": "Package",
+              "version": "[4.20.72, )"
+            },
+            "coverlet.collector": {
+              "target": "Package",
+              "version": "[6.0.0, )"
+            },
+            "xunit": {
+              "target": "Package",
+              "version": "[2.5.3, )"
+            },
+            "xunit.runner.visualstudio": {
+              "target": "Package",
+              "version": "[2.5.3, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/10.0.102/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}
