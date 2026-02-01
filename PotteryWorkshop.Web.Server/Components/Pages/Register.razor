@@ -1,5 +1,6 @@
 @page "/register"
 @layout WebsiteLayout
+@using PotteryWorkshop.Application.Common.Interfaces
 @using PotteryWorkshop.Application.DTOs
 
 <PageTitle>Register - Pottery Workshop</PageTitle>
@@ -123,6 +124,7 @@
     private string _errorMessage = string.Empty;
     private string _successMessage = string.Empty;
 
+    [Inject] private IUserAuthenticationService AuthService { get; set; } = default!;
     [Inject] private NavigationManager Navigation { get; set; } = default!;
 
     private void TogglePasswordVisibility()
@@ -151,12 +153,24 @@
                 return;
             }
 
-            // TODO: Call API to register user
-            await Task.Delay(1000); // Simulate API call
+            var result = await AuthService.RegisterAsync(
+                _registerModel.Email,
+                _registerModel.Password,
+                _registerModel.FirstName,
+                _registerModel.LastName,
+                _registerModel.Phone
+            );
 
-            _successMessage = "Account created successfully! Redirecting to login...";
-            await Task.Delay(2000);
-            Navigation.NavigateTo("/login");
+            if (result.Success)
+            {
+                _successMessage = "Account created successfully! Redirecting to login...";
+                await Task.Delay(2000);
+                Navigation.NavigateTo("/login");
+            }
+            else
+            {
+                _errorMessage = result.ErrorMessage ?? "An error occurred during registration. Please try again.";
+            }
         }
         catch (Exception ex)
         {
