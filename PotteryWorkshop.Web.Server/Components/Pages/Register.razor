@@ -1,4 +1,5 @@
 @page "/register"
+@rendermode InteractiveServer
 @layout WebsiteLayout
 @using PotteryWorkshop.Application.Common.Interfaces
 @using PotteryWorkshop.Application.DTOs
@@ -24,7 +25,7 @@
             <MudAlert Severity="Severity.Success" Style="margin-bottom: 20px;">@_successMessage</MudAlert>
         }
 
-        <EditForm Model="_registerModel" OnValidSubmit="HandleRegister">
+        <EditForm Model="_registerModel" OnValidSubmit="HandleRegister" FormName="RegisterForm">
             <DataAnnotationsValidator />
             
             <MudGrid Spacing="3">
@@ -154,6 +155,7 @@
 
 @code {
     private RegisterModel _registerModel = new();
+    
     private bool _showPassword = false;
     private bool _showConfirmPassword = false;
     private bool _agreedToTerms = false;
