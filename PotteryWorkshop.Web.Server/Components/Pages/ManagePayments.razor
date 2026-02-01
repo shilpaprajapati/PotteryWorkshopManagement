@@ -1,0 +1,198 @@
+@page "/admin/payments"
+@layout AdminLayout
+@attribute [Authorize(Roles = "Admin")]
+
+<PageTitle>Payment Logs - Admin Panel</PageTitle>
+
+<MudText Typo="Typo.h4" Class="mb-4" Style="font-weight: 600;">
+    <MudIcon Icon="@Icons.Material.Filled.Payment" Class="mr-2" />
+    Payment Logs
+</MudText>
+
+<MudGrid Class="mb-4">
+    <MudItem xs="12" sm="6" md="3">
+        <MudPaper Elevation="2" Class="pa-4">
+            <MudStack Spacing="2">
+                <MudText Typo="Typo.body2" Color="Color.Secondary">Today's Revenue</MudText>
+                <MudText Typo="Typo.h5" Style="font-weight: 700; color: #27AE60;">₹45,000</MudText>
+            </MudStack>
+        </MudPaper>
+    </MudItem>
+    <MudItem xs="12" sm="6" md="3">
+        <MudPaper Elevation="2" Class="pa-4">
+            <MudStack Spacing="2">
+                <MudText Typo="Typo.body2" Color="Color.Secondary">This Month</MudText>
+                <MudText Typo="Typo.h5" Style="font-weight: 700; color: #3498DB;">₹2,85,000</MudText>
+            </MudStack>
+        </MudPaper>
+    </MudItem>
+    <MudItem xs="12" sm="6" md="3">
+        <MudPaper Elevation="2" Class="pa-4">
+            <MudStack Spacing="2">
+                <MudText Typo="Typo.body2" Color="Color.Secondary">Successful</MudText>
+                <MudText Typo="Typo.h5" Style="font-weight: 700; color: #27AE60;">48</MudText>
+            </MudStack>
+        </MudPaper>
+    </MudItem>
+    <MudItem xs="12" sm="6" md="3">
+        <MudPaper Elevation="2" Class="pa-4">
+            <MudStack Spacing="2">
+                <MudText Typo="Typo.body2" Color="Color.Secondary">Failed</MudText>
+                <MudText Typo="Typo.h5" Style="font-weight: 700; color: #E74C3C;">3</MudText>
+            </MudStack>
+        </MudPaper>
+    </MudItem>
+</MudGrid>
+
+<MudPaper Elevation="2" Class="pa-4 mb-4">
+    <MudStack Row="true" Spacing="3" AlignItems="AlignItems.Center">
+        <MudTextField @bind-Value="_searchString" 
+                      Placeholder="Search by transaction ID, booking number..." 
+                      Adornment="Adornment.Start" 
+                      AdornmentIcon="@Icons.Material.Filled.Search"
+                      Variant="Variant.Outlined"
+                      Margin="Margin.Dense"
+                      Style="flex: 1;" />
+        <MudSelect @bind-Value="_statusFilter" Label="Status" Variant="Variant.Outlined" Margin="Margin.Dense" Style="min-width: 180px;">
+            <MudSelectItem Value="@("")">All</MudSelectItem>
+            <MudSelectItem Value="@("Success")">Success</MudSelectItem>
+            <MudSelectItem Value="@("Failed")">Failed</MudSelectItem>
+            <MudSelectItem Value="@("Pending")">Pending</MudSelectItem>
+            <MudSelectItem Value="@("Refunded")">Refunded</MudSelectItem>
+        </MudSelect>
+        <MudSelect @bind-Value="_gatewayFilter" Label="Gateway" Variant="Variant.Outlined" Margin="Margin.Dense" Style="min-width: 180px;">
+            <MudSelectItem Value="@("")">All</MudSelectItem>
+            <MudSelectItem Value="@("Cashfree")">Cashfree</MudSelectItem>
+            <MudSelectItem Value="@("Razorpay")">Razorpay</MudSelectItem>
+        </MudSelect>
+    </MudStack>
+</MudPaper>
+
+<MudTable Items="@_payments" Hover="true" Striped="true" Elevation="2">
+    <HeaderContent>
+        <MudTh>Transaction ID</MudTh>
+        <MudTh>Booking #</MudTh>
+        <MudTh>Customer</MudTh>
+        <MudTh>Amount</MudTh>
+        <MudTh>Gateway</MudTh>
+        <MudTh>Date & Time</MudTh>
+        <MudTh>Status</MudTh>
+        <MudTh>Actions</MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="Transaction ID">
+            <MudText Typo="Typo.caption" Style="font-family: monospace;">@context.TransactionId</MudText>
+        </MudTd>
+        <MudTd DataLabel="Booking #">
+            <MudText Typo="Typo.body2" Style="font-family: monospace;">@context.BookingNumber</MudText>
+        </MudTd>
+        <MudTd DataLabel="Customer">
+            <MudStack Spacing="0">
+                <MudText Typo="Typo.body2">@context.CustomerName</MudText>
+                <MudText Typo="Typo.caption" Color="Color.Secondary">@context.CustomerEmail</MudText>
+            </MudStack>
+        </MudTd>
+        <MudTd DataLabel="Amount">
+            <MudText Typo="Typo.body2" Style="font-weight: 600;">₹@context.Amount</MudText>
+        </MudTd>
+        <MudTd DataLabel="Gateway">
+            <MudChip T="string" Size="Size.Small" Variant="Variant.Outlined">@context.Gateway</MudChip>
+        </MudTd>
+        <MudTd DataLabel="Date & Time">
+            <MudStack Spacing="0">
+                <MudText Typo="Typo.body2">@context.Date.ToString("dd MMM yyyy")</MudText>
+                <MudText Typo="Typo.caption" Color="Color.Secondary">@context.Date.ToString("hh:mm tt")</MudText>
+            </MudStack>
+        </MudTd>
+        <MudTd DataLabel="Status">
+            <MudChip T="string" Size="Size.Small" Color="@GetStatusColor(context.Status)">
+                @context.Status
+            </MudChip>
+        </MudTd>
+        <MudTd DataLabel="Actions">
+            <MudIconButton Icon="@Icons.Material.Filled.Visibility" 
+                           Size="Size.Small" 
+                           Color="Color.Primary" 
+                           Title="View Details" />
+        </MudTd>
+    </RowTemplate>
+    <PagerContent>
+        <MudTablePager PageSizeOptions="new int[] { 10, 25, 50, 100 }" />
+    </PagerContent>
+</MudTable>
+
+@code {
+    private string _searchString = string.Empty;
+    private string _statusFilter = string.Empty;
+    private string _gatewayFilter = string.Empty;
+    private List<PaymentDto> _payments = new();
+
+    protected override void OnInitialized()
+    {
+        LoadDemoData();
+    }
+
+    private void LoadDemoData()
+    {
+        _payments = new List<PaymentDto>
+        {
+            new PaymentDto 
+            { 
+                TransactionId = "txn_CF1234567890",
+                BookingNumber = "BK20260201001",
+                CustomerName = "John Doe",
+                CustomerEmail = "john@example.com",
+                Amount = 7000,
+                Gateway = "Cashfree",
+                Date = DateTime.Now.AddHours(-2),
+                Status = "Success"
+            },
+            new PaymentDto 
+            { 
+                TransactionId = "pay_RZ9876543210",
+                BookingNumber = "BK20260201002",
+                CustomerName = "Jane Smith",
+                CustomerEmail = "jane@example.com",
+                Amount = 5000,
+                Gateway = "Razorpay",
+                Date = DateTime.Now.AddHours(-5),
+                Status = "Success"
+            },
+            new PaymentDto 
+            { 
+                TransactionId = "txn_CF1122334455",
+                BookingNumber = "BK20260201003",
+                CustomerName = "Bob Johnson",
+                CustomerEmail = "bob@example.com",
+                Amount = 4000,
+                Gateway = "Cashfree",
+                Date = DateTime.Now.AddHours(-8),
+                Status = "Failed"
+            }
+        };
+    }
+
+    private Color GetStatusColor(string status)
+    {
+        return status switch
+        {
+            "Success" => Color.Success,
+            "Pending" => Color.Warning,
+            "Failed" => Color.Error,
+            "Refunded" => Color.Info,
+            _ => Color.Default
+        };
+    }
+
+    public class PaymentDto
+    {
+        public string TransactionId { get; set; } = string.Empty;
+        public string BookingNumber { get; set; } = string.Empty;
+        public string CustomerName { get; set; } = string.Empty;
+        public string CustomerEmail { get; set; } = string.Empty;
+        public decimal Amount { get; set; }
+        public string Gateway { get; set; } = string.Empty;
+        public DateTime Date { get; set; }
+        public string Status { get; set; } = string.Empty;
+    }
+}

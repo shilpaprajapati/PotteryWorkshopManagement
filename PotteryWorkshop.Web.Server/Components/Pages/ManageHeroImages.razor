@@ -1,0 +1,131 @@
+@page "/admin/hero-images"
+@layout AdminLayout
+@attribute [Authorize(Roles = "Admin")]
+
+<PageTitle>Manage Hero Images - Admin Panel</PageTitle>
+
+<MudText Typo="Typo.h4" Class="mb-4" Style="font-weight: 600;">
+    <MudIcon Icon="@Icons.Material.Filled.Image" Class="mr-2" />
+    Manage Hero Images
+</MudText>
+
+<MudText Typo="Typo.body1" Class="mb-4" Color="Color.Secondary">
+    Upload and manage carousel images for the homepage hero section. Recommended size: 1920x1080px
+</MudText>
+
+<MudPaper Elevation="2" Class="pa-4 mb-4">
+    <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
+        <MudText Typo="Typo.h6">Active Hero Images</MudText>
+        <MudButton Variant="Variant.Filled" 
+                   Color="Color.Primary" 
+                   StartIcon="@Icons.Material.Filled.Add"
+                   OnClick="OpenUploadDialog">
+            Upload New Image
+        </MudButton>
+    </MudStack>
+</MudPaper>
+
+<MudGrid Spacing="4">
+    @foreach (var image in _heroImages)
+    {
+        <MudItem xs="12" sm="6" md="4">
+            <MudCard Elevation="3">
+                <MudCardMedia Image="@image.ImageUrl" Height="200" />
+                <MudCardContent>
+                    <MudStack Spacing="2">
+                        <MudTextField @bind-Value="image.Title" Label="Title" Variant="Variant.Outlined" />
+                        <MudTextField @bind-Value="image.Subtitle" Label="Subtitle" Variant="Variant.Outlined" />
+                        <MudNumericField @bind-Value="image.DisplayOrder" Label="Display Order" Variant="Variant.Outlined" Min="0" />
+                        <MudSwitch @bind-Value="image.IsActive" Color="Color.Success" Label="Active" />
+                    </MudStack>
+                </MudCardContent>
+                <MudCardActions>
+                    <MudButton Variant="Variant.Filled" Color="Color.Primary" Size="Size.Small" OnClick="@(() => SaveImage(image))">
+                        Save
+                    </MudButton>
+                    <MudButton Variant="Variant.Outlined" Color="Color.Error" Size="Size.Small" OnClick="@(() => DeleteImage(image.Id))">
+                        Delete
+                    </MudButton>
+                </MudCardActions>
+            </MudCard>
+        </MudItem>
+    }
+</MudGrid>
+
+@if (_heroImages.Count == 0)
+{
+    <MudPaper Elevation="0" Class="pa-8 text-center" Style="border: 2px dashed #ccc;">
+        <MudIcon Icon="@Icons.Material.Filled.Image" Size="Size.Large" Color="Color.Secondary" />
+        <MudText Typo="Typo.h6" Color="Color.Secondary" Class="mt-4">No hero images yet</MudText>
+        <MudText Typo="Typo.body2" Color="Color.Secondary">Click "Upload New Image" to add your first hero image</MudText>
+    </MudPaper>
+}
+
+@code {
+    private List<HeroImageDto> _heroImages = new();
+
+    protected override void OnInitialized()
+    {
+        LoadDemoData();
+    }
+
+    private void LoadDemoData()
+    {
+        _heroImages = new List<HeroImageDto>
+        {
+            new HeroImageDto 
+            { 
+                Id = Guid.NewGuid(),
+                Title = "Welcome to Pottery Workshop",
+                Subtitle = "Experience the art of pottery making",
+                ImageUrl = "https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=1920",
+                DisplayOrder = 1,
+                IsActive = true
+            },
+            new HeroImageDto 
+            { 
+                Id = Guid.NewGuid(),
+                Title = "Create Beautiful Ceramics",
+                Subtitle = "Hands-on pottery workshops for all levels",
+                ImageUrl = "https://images.unsplash.com/photo-1493106641515-6b5631de4bb9?w=1920",
+                DisplayOrder = 2,
+                IsActive = true
+            },
+            new HeroImageDto 
+            { 
+                Id = Guid.NewGuid(),
+                Title = "Unleash Your Creativity",
+                Subtitle = "Perfect for couples, friends, and families",
+                ImageUrl = "https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?w=1920",
+                DisplayOrder = 3,
+                IsActive = true
+            }
+        };
+    }
+
+    private void OpenUploadDialog()
+    {
+        // TODO: Implement upload dialog
+    }
+
+    private void SaveImage(HeroImageDto image)
+    {
+        // TODO: Save image to API
+    }
+
+    private void DeleteImage(Guid id)
+    {
+        // TODO: Delete image via API
+        _heroImages.RemoveAll(x => x.Id == id);
+    }
+
+    public class HeroImageDto
+    {
+        public Guid Id { get; set; }
+        public string Title { get; set; } = string.Empty;
+        public string Subtitle { get; set; } = string.Empty;
+        public string ImageUrl { get; set; } = string.Empty;
+        public int DisplayOrder { get; set; }
+        public bool IsActive { get; set; }
+    }
+}

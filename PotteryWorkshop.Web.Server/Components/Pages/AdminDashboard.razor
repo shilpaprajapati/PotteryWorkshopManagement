@@ -1,4 +1,6 @@
 @page "/admin/dashboard"
+@layout AdminLayout
+@attribute [Authorize(Roles = "Admin")]
 
 <PageTitle>Admin Dashboard - Pottery Workshop</PageTitle>
 

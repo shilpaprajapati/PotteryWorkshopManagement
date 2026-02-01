@@ -1,0 +1,169 @@
+@page "/admin/bookings"
+@layout AdminLayout
+@attribute [Authorize(Roles = "Admin")]
+
+<PageTitle>Manage Bookings - Admin Panel</PageTitle>
+
+<MudText Typo="Typo.h4" Class="mb-4" Style="font-weight: 600;">
+    <MudIcon Icon="@Icons.Material.Filled.BookOnline" Class="mr-2" />
+    Manage Bookings
+</MudText>
+
+<MudPaper Elevation="2" Class="pa-4 mb-4">
+    <MudStack Row="true" Spacing="3" AlignItems="AlignItems.Center">
+        <MudTextField @bind-Value="_searchString" 
+                      Placeholder="Search by booking number, name, email..." 
+                      Adornment="Adornment.Start" 
+                      AdornmentIcon="@Icons.Material.Filled.Search"
+                      Variant="Variant.Outlined"
+                      Margin="Margin.Dense"
+                      Style="flex: 1;" />
+        <MudSelect @bind-Value="_statusFilter" Label="Status" Variant="Variant.Outlined" Margin="Margin.Dense" Style="min-width: 200px;">
+            <MudSelectItem Value="@("")">All Statuses</MudSelectItem>
+            <MudSelectItem Value="@("Pending")">Pending</MudSelectItem>
+            <MudSelectItem Value="@("Confirmed")">Confirmed</MudSelectItem>
+            <MudSelectItem Value="@("Completed")">Completed</MudSelectItem>
+            <MudSelectItem Value="@("Cancelled")">Cancelled</MudSelectItem>
+        </MudSelect>
+    </MudStack>
+</MudPaper>
+
+<MudTable Items="@_bookings" Hover="true" Striped="true" Elevation="2">
+    <HeaderContent>
+        <MudTh>Booking #</MudTh>
+        <MudTh>Customer</MudTh>
+        <MudTh>Workshop</MudTh>
+        <MudTh>Date & Time</MudTh>
+        <MudTh>People</MudTh>
+        <MudTh>Amount</MudTh>
+        <MudTh>Status</MudTh>
+        <MudTh>Actions</MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="Booking #">
+            <MudText Typo="Typo.body2" Style="font-family: monospace;">@context.BookingNumber</MudText>
+        </MudTd>
+        <MudTd DataLabel="Customer">
+            <MudStack Spacing="0">
+                <MudText Typo="Typo.body2">@context.CustomerName</MudText>
+                <MudText Typo="Typo.caption" Color="Color.Secondary">@context.CustomerEmail</MudText>
+            </MudStack>
+        </MudTd>
+        <MudTd DataLabel="Workshop">@context.WorkshopName</MudTd>
+        <MudTd DataLabel="Date & Time">
+            <MudStack Spacing="0">
+                <MudText Typo="Typo.body2">@context.SlotDate.ToString("dd MMM yyyy")</MudText>
+                <MudText Typo="Typo.caption" Color="Color.Secondary">@context.SlotTime</MudText>
+            </MudStack>
+        </MudTd>
+        <MudTd DataLabel="People">@context.NumberOfPeople</MudTd>
+        <MudTd DataLabel="Amount">
+            <MudStack Spacing="0">
+                <MudText Typo="Typo.body2" Style="font-weight: 600;">₹@context.FinalAmount</MudText>
+                @if (context.DiscountAmount > 0)
+                {
+                    <MudText Typo="Typo.caption" Color="Color.Success">-₹@context.DiscountAmount saved</MudText>
+                }
+            </MudStack>
+        </MudTd>
+        <MudTd DataLabel="Status">
+            <MudChip T="string" Size="Size.Small" Color="@GetStatusColor(context.Status)">
+                @context.Status
+            </MudChip>
+        </MudTd>
+        <MudTd DataLabel="Actions">
+            <MudMenu Icon="@Icons.Material.Filled.MoreVert" Size="Size.Small">
+                <MudMenuItem Icon="@Icons.Material.Filled.Visibility">View Details</MudMenuItem>
+                <MudMenuItem Icon="@Icons.Material.Filled.QrCode">View QR Code</MudMenuItem>
+                <MudMenuItem Icon="@Icons.Material.Filled.CheckCircle">Mark Completed</MudMenuItem>
+                <MudMenuItem Icon="@Icons.Material.Filled.Cancel">Cancel Booking</MudMenuItem>
+            </MudMenu>
+        </MudTd>
+    </RowTemplate>
+    <PagerContent>
+        <MudTablePager PageSizeOptions="new int[] { 10, 25, 50, 100 }" />
+    </PagerContent>
+</MudTable>
+
+@code {
+    private string _searchString = string.Empty;
+    private string _statusFilter = string.Empty;
+    private List<BookingDto> _bookings = new();
+
+    protected override void OnInitialized()
+    {
+        LoadDemoData();
+    }
+
+    private void LoadDemoData()
+    {
+        _bookings = new List<BookingDto>
+        {
+            new BookingDto 
+            { 
+                BookingNumber = "BK20260201001",
+                CustomerName = "John Doe",
+                CustomerEmail = "john@example.com",
+                WorkshopName = "7.0 Premium",
+                SlotDate = DateTime.Today,
+                SlotTime = "10:00 AM - 1:00 PM",
+                NumberOfPeople = 2,
+                FinalAmount = 7000,
+                DiscountAmount = 700,
+                Status = "Confirmed"
+            },
+            new BookingDto 
+            { 
+                BookingNumber = "BK20260201002",
+                CustomerName = "Jane Smith",
+                CustomerEmail = "jane@example.com",
+                WorkshopName = "5.0 Deluxe",
+                SlotDate = DateTime.Today.AddDays(1),
+                SlotTime = "2:00 PM - 5:00 PM",
+                NumberOfPeople = 1,
+                FinalAmount = 5000,
+                DiscountAmount = 0,
+                Status = "Pending"
+            },
+            new BookingDto 
+            { 
+                BookingNumber = "BK20260131003",
+                CustomerName = "Bob Johnson",
+                CustomerEmail = "bob@example.com",
+                WorkshopName = "2 Hours Basic",
+                SlotDate = DateTime.Today.AddDays(-1),
+                SlotTime = "11:00 AM - 1:00 PM",
+                NumberOfPeople = 2,
+                FinalAmount = 1700,
+                DiscountAmount = 0,
+                Status = "Completed"
+            }
+        };
+    }
+
+    private Color GetStatusColor(string status)
+    {
+        return status switch
+        {
+            "Confirmed" => Color.Success,
+            "Pending" => Color.Warning,
+            "Completed" => Color.Info,
+            "Cancelled" => Color.Error,
+            _ => Color.Default
+        };
+    }
+
+    public class BookingDto
+    {
+        public string BookingNumber { get; set; } = string.Empty;
+        public string CustomerName { get; set; } = string.Empty;
+        public string CustomerEmail { get; set; } = string.Empty;
+        public string WorkshopName { get; set; } = string.Empty;
+        public DateTime SlotDate { get; set; }
+        public string SlotTime { get; set; } = string.Empty;
+        public int NumberOfPeople { get; set; }
+        public decimal FinalAmount { get; set; }
+        public decimal DiscountAmount { get; set; }
+        public string Status { get; set; } = string.Empty;
+    }
+}
