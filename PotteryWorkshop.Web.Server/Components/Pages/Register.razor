@@ -32,12 +32,14 @@
                     <MudTextField @bind-Value="_registerModel.FirstName" 
                                   Label="First Name" 
                                   Variant="Variant.Outlined"
+                                  Placeholder="Enter first name"
                                   For="@(() => _registerModel.FirstName)" />
                 </MudItem>
                 <MudItem xs="12" md="6">
                     <MudTextField @bind-Value="_registerModel.LastName" 
                                   Label="Last Name" 
                                   Variant="Variant.Outlined"
+                                  Placeholder="Enter last name"
                                   For="@(() => _registerModel.LastName)" />
                 </MudItem>
             </MudGrid>
@@ -48,15 +50,37 @@
                           InputType="InputType.Email"
                           HelperText="We'll never share your email"
                           Style="margin-top: 20px;"
+                          Placeholder="your.email@example.com"
                           For="@(() => _registerModel.Email)" />
 
-            <MudTextField @bind-Value="_registerModel.Phone" 
-                          Label="Phone Number" 
-                          Variant="Variant.Outlined"
-                          InputType="InputType.Telephone"
-                          HelperText="We'll send booking confirmations here"
-                          Style="margin-top: 20px;"
-                          For="@(() => _registerModel.Phone)" />
+            <MudGrid Spacing="2" Style="margin-top: 20px;">
+                <MudItem xs="4" md="3">
+                    <MudSelect @bind-Value="_registerModel.CountryCode" 
+                               Label="Code" 
+                               Variant="Variant.Outlined"
+                               AnchorOrigin="Origin.BottomCenter"
+                               For="@(() => _registerModel.CountryCode)">
+                        <MudSelectItem Value="@("+1")">+1 (US/CA)</MudSelectItem>
+                        <MudSelectItem Value="@("+44")">+44 (UK)</MudSelectItem>
+                        <MudSelectItem Value="@("+91")">+91 (IN)</MudSelectItem>
+                        <MudSelectItem Value="@("+61")">+61 (AU)</MudSelectItem>
+                        <MudSelectItem Value="@("+86")">+86 (CN)</MudSelectItem>
+                        <MudSelectItem Value="@("+81")">+81 (JP)</MudSelectItem>
+                        <MudSelectItem Value="@("+49")">+49 (DE)</MudSelectItem>
+                        <MudSelectItem Value="@("+33")">+33 (FR)</MudSelectItem>
+                        <MudSelectItem Value="@("+971")">+971 (AE)</MudSelectItem>
+                    </MudSelect>
+                </MudItem>
+                <MudItem xs="8" md="9">
+                    <MudTextField @bind-Value="_registerModel.Phone" 
+                                  Label="Phone Number" 
+                                  Variant="Variant.Outlined"
+                                  InputType="InputType.Telephone"
+                                  HelperText="We'll send booking confirmations here"
+                                  Placeholder="Enter phone number"
+                                  For="@(() => _registerModel.Phone)" />
+                </MudItem>
+            </MudGrid>
 
             <MudTextField @bind-Value="_registerModel.Password" 
                           Label="Password" 
@@ -67,6 +91,7 @@
                           OnAdornmentClick="TogglePasswordVisibility"
                           HelperText="At least 6 characters"
                           Style="margin-top: 20px;"
+                          Placeholder="Enter password"
                           For="@(() => _registerModel.Password)" />
 
             <MudTextField @bind-Value="_registerModel.ConfirmPassword" 
@@ -78,14 +103,26 @@
                           OnAdornmentClick="ToggleConfirmPasswordVisibility"
                           HelperText="Re-enter your password"
                           Style="margin-top: 20px; margin-bottom: 10px;"
+                          Placeholder="Re-enter password"
                           For="@(() => _registerModel.ConfirmPassword)" />
 
-            <MudCheckBox @bind-Value="_agreedToTerms" Color="Color.Primary" Style="margin-bottom: 20px;">
+            <MudCheckBox @bind-Value="_agreedToTerms" 
+                         Color="Color.Primary" 
+                         Style="margin-bottom: 20px;"
+                         Required="true"
+                         RequiredError="You must agree to the terms and conditions">
                 <MudText Typo="Typo.body2">
                     I agree to the <MudLink Href="/terms" Style="color: #D4A574;">Terms & Conditions</MudLink> and 
                     <MudLink Href="/privacy" Style="color: #D4A574;">Privacy Policy</MudLink>
                 </MudText>
             </MudCheckBox>
+
+            @if (!_agreedToTerms && _showValidationMessage)
+            {
+                <MudAlert Severity="Severity.Warning" Style="margin-bottom: 20px;">
+                    Please agree to the Terms & Conditions to continue.
+                </MudAlert>
+            }
 
             <MudButton ButtonType="ButtonType.Submit" 
                        Variant="Variant.Filled" 
@@ -93,7 +130,7 @@
                        FullWidth="true"
                        Size="Size.Large"
                        Style="margin-bottom: 20px; text-transform: none; font-weight: 600;"
-                       Disabled="_isLoading || !_agreedToTerms">
+                       Disabled="_isLoading">
                 @if (_isLoading)
                 {
                     <MudProgressCircular Size="Size.Small" Indeterminate="true" Color="Color.Surface" />
@@ -121,11 +158,18 @@
     private bool _showConfirmPassword = false;
     private bool _agreedToTerms = false;
     private bool _isLoading = false;
+    private bool _showValidationMessage = false;
     private string _errorMessage = string.Empty;
     private string _successMessage = string.Empty;
 
     [Inject] private IUserAuthenticationService AuthService { get; set; } = default!;
     [Inject] private NavigationManager Navigation { get; set; } = default!;
+
+    protected override void OnInitialized()
+    {
+        // Set default country code to +91 (India)
+        _registerModel.CountryCode = "+91";
+    }
 
     private void TogglePasswordVisibility()
     {
@@ -139,12 +183,22 @@
 
     private async Task HandleRegister()
     {
+        _showValidationMessage = false;
         _isLoading = true;
         _errorMessage = string.Empty;
         _successMessage = string.Empty;
 
         try
         {
+            // Check if user agreed to terms
+            if (!_agreedToTerms)
+            {
+                _errorMessage = "You must agree to the Terms & Conditions to create an account.";
+                _showValidationMessage = true;
+                _isLoading = false;
+                return;
+            }
+
             // Validate passwords match
             if (_registerModel.Password != _registerModel.ConfirmPassword)
             {
@@ -153,12 +207,23 @@
                 return;
             }
 
+            // Validate phone number is not empty
+            if (string.IsNullOrWhiteSpace(_registerModel.Phone))
+            {
+                _errorMessage = "Phone number is required.";
+                _isLoading = false;
+                return;
+            }
+
+            // Combine country code with phone number
+            var fullPhoneNumber = $"{_registerModel.CountryCode}{_registerModel.Phone}";
+
             var result = await AuthService.RegisterAsync(
                 _registerModel.Email,
                 _registerModel.Password,
                 _registerModel.FirstName,
                 _registerModel.LastName,
-                _registerModel.Phone
+                fullPhoneNumber
             );
 
             if (result.Success)
@@ -172,7 +237,7 @@
                 _errorMessage = result.ErrorMessage ?? "An error occurred during registration. Please try again.";
             }
         }
-        catch (Exception ex)
+        catch (Exception)
         {
             _errorMessage = "An error occurred during registration. Please try again.";
         }
@@ -185,24 +250,32 @@
     public class RegisterModel
     {
         [Required(ErrorMessage = "First name is required")]
+        [StringLength(50, ErrorMessage = "First name cannot exceed 50 characters")]
         public string FirstName { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "Last name is required")]
+        [StringLength(50, ErrorMessage = "Last name cannot exceed 50 characters")]
         public string LastName { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "Email is required")]
         [EmailAddress(ErrorMessage = "Invalid email address")]
+        [StringLength(100, ErrorMessage = "Email cannot exceed 100 characters")]
         public string Email { get; set; } = string.Empty;
 
-        [Required(ErrorMessage = "Phone is required")]
-        [Phone(ErrorMessage = "Invalid phone number")]
+        [Required(ErrorMessage = "Country code is required")]
+        public string CountryCode { get; set; } = "+91";
+
+        [Required(ErrorMessage = "Phone number is required")]
+        [RegularExpression(@"^\d{10,15}$", ErrorMessage = "Phone number must be 10-15 digits")]
         public string Phone { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "Password is required")]
         [MinLength(6, ErrorMessage = "Password must be at least 6 characters")]
+        [StringLength(100, ErrorMessage = "Password cannot exceed 100 characters")]
         public string Password { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "Confirm password is required")]
+        [Compare(nameof(Password), ErrorMessage = "Passwords do not match")]
         public string ConfirmPassword { get; set; } = string.Empty;
     }
 }

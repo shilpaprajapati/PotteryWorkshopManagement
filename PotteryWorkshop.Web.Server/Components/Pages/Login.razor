@@ -31,6 +31,7 @@
                           InputType="InputType.Email"
                           HelperText="Enter your email address"
                           Style="margin-bottom: 20px;"
+                          Placeholder="your.email@example.com"
                           For="@(() => _loginModel.Email)" />
 
             <MudTextField @bind-Value="_loginModel.Password" 
@@ -42,6 +43,7 @@
                           OnAdornmentClick="TogglePasswordVisibility"
                           HelperText="Enter your password"
                           Style="margin-bottom: 10px;"
+                          Placeholder="Enter password"
                           For="@(() => _loginModel.Password)" />
 
             <MudCheckBox @bind-Value="_rememberMe" Label="Remember me" Color="Color.Primary" Style="margin-bottom: 20px;" />
@@ -140,7 +142,7 @@
                 _errorMessage = result.ErrorMessage ?? "Invalid email or password. Please try again.";
             }
         }
-        catch (Exception ex)
+        catch (Exception)
         {
             _errorMessage = "An error occurred during login. Please try again.";
         }
