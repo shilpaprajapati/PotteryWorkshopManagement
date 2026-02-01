@@ -73,6 +73,11 @@ artifacts/
 # except build/, which is used as an MSBuild target.
 !**/[Pp]ackages/build/
 
+# SQLite Database Files
+*.db
+*.db-shm
+*.db-wal
+
 # OS generated files
 .DS_Store
 .DS_Store?
