@@ -12,9 +12,22 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
-        // Database
-        services.AddDbContext<ApplicationDbContext>(options =>
-            options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+        // Database - Support both SQL Server and SQLite
+        var connectionString = configuration.GetConnectionString("DefaultConnection");
+        var useSqlite = configuration.GetValue<bool>("UseSqlite", false);
+        
+        if (useSqlite || string.IsNullOrEmpty(connectionString) || connectionString.Contains("(localdb)"))
+        {
+            // Use SQLite for development/testing
+            services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlite(configuration.GetConnectionString("SqliteConnection") ?? "Data Source=potteryworkshop.db"));
+        }
+        else
+        {
+            // Use SQL Server for production
+            services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlServer(connectionString));
+        }
 
         services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
 
