@@ -154,13 +154,17 @@ public class PaymentService : IPaymentService
                     payment.Amount
                 );
 
-                await _emailService.SendBookingConfirmationAsync(
-                    payment.Booking.CustomerEmail,
-                    payment.Booking.BookingNumber,
-                    payment.Booking.Workshop.Name,
-                    payment.Booking.Slot?.SlotDate.Add(payment.Booking.Slot.StartTime) ?? DateTime.UtcNow,
-                    payment.Amount
-                );
+                // Only send booking confirmation if slot information is available
+                if (payment.Booking.Slot != null)
+                {
+                    await _emailService.SendBookingConfirmationAsync(
+                        payment.Booking.CustomerEmail,
+                        payment.Booking.BookingNumber,
+                        payment.Booking.Workshop.Name,
+                        payment.Booking.Slot.SlotDate.Add(payment.Booking.Slot.StartTime),
+                        payment.Amount
+                    );
+                }
 
                 _logger.LogInformation("Payment verified successfully for transaction {TransactionId}", transactionId);
             }

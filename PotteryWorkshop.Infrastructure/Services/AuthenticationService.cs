@@ -198,6 +198,14 @@ public class UserAuthenticationService : IUserAuthenticationService
     {
         var tokenHandler = new JwtSecurityTokenHandler();
         var key = Encoding.UTF8.GetBytes(_configuration["Jwt:Key"] ?? throw new InvalidOperationException("JWT Key not configured"));
+        
+        // Parse duration with fallback to 1440 minutes (24 hours)
+        var durationInMinutes = 1440;
+        if (int.TryParse(_configuration["Jwt:DurationInMinutes"], out var configuredDuration))
+        {
+            durationInMinutes = configuredDuration;
+        }
+        
         var tokenDescriptor = new SecurityTokenDescriptor
         {
             Subject = new ClaimsIdentity(new[]
@@ -207,7 +215,7 @@ public class UserAuthenticationService : IUserAuthenticationService
                 new Claim(ClaimTypes.Name, $"{user.FirstName} {user.LastName}"),
                 new Claim(ClaimTypes.Role, user.IsAdmin ? "Admin" : "User")
             }),
-            Expires = DateTime.UtcNow.AddMinutes(int.Parse(_configuration["Jwt:DurationInMinutes"] ?? "1440")),
+            Expires = DateTime.UtcNow.AddMinutes(durationInMinutes),
             Issuer = _configuration["Jwt:Issuer"],
             Audience = _configuration["Jwt:Audience"],
             SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
