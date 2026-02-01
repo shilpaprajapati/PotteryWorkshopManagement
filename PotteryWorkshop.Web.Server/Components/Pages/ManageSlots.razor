@@ -1,0 +1,151 @@
+@page "/admin/slots"
+@layout AdminLayout
+
+
+<PageTitle>Manage Slots - Admin Panel</PageTitle>
+
+<MudText Typo="Typo.h4" Class="mb-4" Style="font-weight: 600;">
+    <MudIcon Icon="@Icons.Material.Filled.Schedule" Class="mr-2" />
+    Manage Workshop Slots
+</MudText>
+
+<MudPaper Elevation="2" Class="pa-4 mb-4">
+    <MudStack Spacing="3">
+        <MudSelect @bind-Value="_selectedWorkshopId" Label="Select Workshop" Variant="Variant.Outlined" AnchorOrigin="Origin.BottomCenter">
+            @foreach (var workshop in _workshops)
+            {
+                <MudSelectItem Value="@workshop.Id">@workshop.Name</MudSelectItem>
+            }
+        </MudSelect>
+        <MudDatePicker @bind-Date="_selectedDate" Label="Select Date" Variant="Variant.Outlined" />
+        <MudButton Variant="Variant.Filled" 
+                   Color="Color.Primary" 
+                   StartIcon="@Icons.Material.Filled.Add"
+                   OnClick="OpenAddSlotDialog">
+            Add Time Slot
+        </MudButton>
+    </MudStack>
+</MudPaper>
+
+<MudTable Items="@_slots" Hover="true" Striped="true" Elevation="2">
+    <HeaderContent>
+        <MudTh>Workshop</MudTh>
+        <MudTh>Date</MudTh>
+        <MudTh>Start Time</MudTh>
+        <MudTh>End Time</MudTh>
+        <MudTh>Available Capacity</MudTh>
+        <MudTh>Booked</MudTh>
+        <MudTh>Status</MudTh>
+        <MudTh>Actions</MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="Workshop">@context.WorkshopName</MudTd>
+        <MudTd DataLabel="Date">@context.Date.ToString("dd MMM yyyy")</MudTd>
+        <MudTd DataLabel="Start">@context.StartTime.ToString("hh:mm tt")</MudTd>
+        <MudTd DataLabel="End">@context.EndTime.ToString("hh:mm tt")</MudTd>
+        <MudTd DataLabel="Available">@context.AvailableCapacity</MudTd>
+        <MudTd DataLabel="Booked">@context.BookedCount</MudTd>
+        <MudTd DataLabel="Status">
+            <MudChip T="string" Size="Size.Small" Color="@GetStatusColor(context)">
+                @GetStatusText(context)
+            </MudChip>
+        </MudTd>
+        <MudTd DataLabel="Actions">
+            <MudIconButton Icon="@Icons.Material.Filled.Edit" 
+                           Size="Size.Small" 
+                           Color="Color.Primary" 
+                           Title="Edit" />
+            <MudIconButton Icon="@Icons.Material.Filled.Delete" 
+                           Size="Size.Small" 
+                           Color="Color.Error" 
+                           Title="Delete" />
+        </MudTd>
+    </RowTemplate>
+    <PagerContent>
+        <MudTablePager />
+    </PagerContent>
+</MudTable>
+
+@code {
+    private Guid? _selectedWorkshopId;
+    private DateTime? _selectedDate = DateTime.Today;
+    private List<WorkshopSlotDto> _slots = new();
+    private List<WorkshopDto> _workshops = new();
+
+    protected override void OnInitialized()
+    {
+        LoadDemoData();
+    }
+
+    private void LoadDemoData()
+    {
+        // Load workshops
+        _workshops = new List<WorkshopDto>
+        {
+            new WorkshopDto { Id = Guid.NewGuid(), Name = "7.0 Premium" },
+            new WorkshopDto { Id = Guid.NewGuid(), Name = "5.0 Deluxe" },
+            new WorkshopDto { Id = Guid.NewGuid(), Name = "4.0 Artistic" }
+        };
+
+        // Load slots
+        _slots = new List<WorkshopSlotDto>
+        {
+            new WorkshopSlotDto 
+            { 
+                Id = Guid.NewGuid(), 
+                WorkshopName = "7.0 Premium", 
+                Date = DateTime.Today, 
+                StartTime = new TimeSpan(10, 0, 0), 
+                EndTime = new TimeSpan(13, 0, 0),
+                AvailableCapacity = 2,
+                BookedCount = 0
+            },
+            new WorkshopSlotDto 
+            { 
+                Id = Guid.NewGuid(), 
+                WorkshopName = "5.0 Deluxe", 
+                Date = DateTime.Today.AddDays(1), 
+                StartTime = new TimeSpan(14, 0, 0), 
+                EndTime = new TimeSpan(17, 0, 0),
+                AvailableCapacity = 1,
+                BookedCount = 1
+            }
+        };
+    }
+
+    private void OpenAddSlotDialog()
+    {
+        // TODO: Implement add slot dialog
+    }
+
+    private Color GetStatusColor(WorkshopSlotDto slot)
+    {
+        if (slot.AvailableCapacity == 0) return Color.Error;
+        if (slot.BookedCount > 0) return Color.Warning;
+        return Color.Success;
+    }
+
+    private string GetStatusText(WorkshopSlotDto slot)
+    {
+        if (slot.AvailableCapacity == 0) return "Full";
+        if (slot.BookedCount > 0) return "Partially Booked";
+        return "Available";
+    }
+
+    public class WorkshopDto
+    {
+        public Guid Id { get; set; }
+        public string Name { get; set; } = string.Empty;
+    }
+
+    public class WorkshopSlotDto
+    {
+        public Guid Id { get; set; }
+        public string WorkshopName { get; set; } = string.Empty;
+        public DateTime Date { get; set; }
+        public TimeSpan StartTime { get; set; }
+        public TimeSpan EndTime { get; set; }
+        public int AvailableCapacity { get; set; }
+        public int BookedCount { get; set; }
+    }
+}

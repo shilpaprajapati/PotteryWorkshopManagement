@@ -1,0 +1,110 @@
+@inherits LayoutComponentBase
+
+<MudThemeProvider Theme="_theme" />
+<MudPopoverProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />
+
+<MudLayout>
+    <MudAppBar Elevation="0" Style="background: linear-gradient(135deg, #D4A574 0%, #B8956A 100%); backdrop-filter: blur(10px);">
+        <MudText Typo="Typo.h5" Style="font-family: 'Georgia', serif; font-weight: 600; color: #FFFFFF; text-shadow: 1px 1px 2px rgba(0,0,0,0.2);">
+            🏺 Pottery Workshop
+        </MudText>
+        <MudSpacer />
+        <MudButton Href="/workshops" Variant="Variant.Text" Style="color: #FFFFFF; text-transform: none; font-weight: 500;">
+            Workshops
+        </MudButton>
+        <MudButton Href="/bookings" Variant="Variant.Text" Style="color: #FFFFFF; text-transform: none; font-weight: 500;">
+            My Bookings
+        </MudButton>
+        <MudButton Href="/products" Variant="Variant.Text" Style="color: #FFFFFF; text-transform: none; font-weight: 500;">
+            Products
+        </MudButton>
+        @if (!_isAuthenticated)
+        {
+            <MudButton Href="/login" Variant="Variant.Outlined" Style="color: #FFFFFF; border-color: #FFFFFF; text-transform: none; margin-left: 16px;">
+                Login
+            </MudButton>
+        }
+        else
+        {
+            <MudMenu Icon="@Icons.Material.Filled.Person" Style="color: #FFFFFF;">
+                <MudMenuItem Icon="@Icons.Material.Filled.Person">Profile</MudMenuItem>
+                <MudMenuItem Icon="@Icons.Material.Filled.BookOnline">My Bookings</MudMenuItem>
+                @if (_isAdmin)
+                {
+                    <MudDivider />
+                    <MudMenuItem Href="/admin/dashboard" Icon="@Icons.Material.Filled.Dashboard">Admin Dashboard</MudMenuItem>
+                }
+                <MudDivider />
+                <MudMenuItem Icon="@Icons.Material.Filled.Logout" OnClick="Logout">Logout</MudMenuItem>
+            </MudMenu>
+        }
+    </MudAppBar>
+    <MudMainContent Style="background: linear-gradient(to bottom, #FAF6F1 0%, #F5EFE7 100%); min-height: 100vh;">
+        @Body
+    </MudMainContent>
+    <MudContainer MaxWidth="MaxWidth.False" Style="background: linear-gradient(135deg, #8B7355 0%, #6B5744 100%); color: #FAF6F1; padding: 40px 20px; margin-top: 60px;">
+        <MudGrid>
+            <MudItem xs="12" md="4">
+                <MudText Typo="Typo.h6" Style="margin-bottom: 16px; font-family: 'Georgia', serif;">About Us</MudText>
+                <MudText Typo="Typo.body2" Style="line-height: 1.8;">
+                    Experience the ancient art of pottery in our modern workshop. Create, learn, and connect with clay.
+                </MudText>
+            </MudItem>
+            <MudItem xs="12" md="4">
+                <MudText Typo="Typo.h6" Style="margin-bottom: 16px; font-family: 'Georgia', serif;">Quick Links</MudText>
+                <MudStack Spacing="2">
+                    <MudLink Href="/workshops" Style="color: #FAF6F1;">Workshops</MudLink>
+                    <MudLink Href="/products" Style="color: #FAF6F1;">Products</MudLink>
+                    <MudLink Href="/bookings" Style="color: #FAF6F1;">My Bookings</MudLink>
+                </MudStack>
+            </MudItem>
+            <MudItem xs="12" md="4">
+                <MudText Typo="Typo.h6" Style="margin-bottom: 16px; font-family: 'Georgia', serif;">Contact</MudText>
+                <MudText Typo="Typo.body2" Style="line-height: 1.8;">
+                    📍 Pottery Workshop Studio<br/>
+                    📧 contact@potteryworkshop.com<br/>
+                    📞 +91 1234567890
+                </MudText>
+            </MudItem>
+        </MudGrid>
+        <MudDivider Style="margin: 30px 0; border-color: rgba(250, 246, 241, 0.2);" />
+        <MudText Align="Align.Center" Typo="Typo.body2">
+            © @DateTime.Now.Year Pottery Workshop. Made with 🌿 Mud, Love & Laughter 🌿
+        </MudText>
+    </MudContainer>
+</MudLayout>
+
+@code {
+    private bool _isAuthenticated = false;
+    private bool _isAdmin = false;
+
+    private MudTheme _theme = new()
+    {
+        PaletteLight = new PaletteLight()
+        {
+            Primary = "#D4A574", // Terracotta/Clay
+            Secondary = "#8B7355", // Brown clay
+            Tertiary = "#A8B89F", // Sage green
+            Background = "#FAF6F1", // Cream/Off-white
+            Surface = "#FFFFFF",
+            AppbarBackground = "#D4A574",
+            DrawerBackground = "#FAF6F1",
+            TextPrimary = "#3E3E3E",
+            TextSecondary = "#6B5744",
+            ActionDefault = "#8B7355",
+            Success = "#7BA05B", // Earthy green
+            Info = "#9DB4C0", // Soft blue-grey
+            Warning = "#E6A957", // Warm amber
+            Error = "#B85C5C" // Muted red
+        }
+    };
+
+    private void Logout()
+    {
+        // TODO: Implement logout logic
+        _isAuthenticated = false;
+        _isAdmin = false;
+    }
+}

@@ -1,0 +1,108 @@
+@inherits LayoutComponentBase
+
+<MudThemeProvider Theme="_adminTheme" />
+<MudPopoverProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />
+
+<MudLayout>
+    <MudAppBar Elevation="1" Style="background: linear-gradient(135deg, #2C3E50 0%, #34495E 100%);">
+        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@ToggleDrawer" />
+        <MudText Typo="Typo.h6" Style="font-weight: 600; margin-left: 12px;">
+            🏺 Admin Panel
+        </MudText>
+        <MudSpacer />
+        <MudChip T="string" Icon="@Icons.Material.Filled.AdminPanelSettings" Color="Color.Warning" Size="Size.Small">
+            Administrator
+        </MudChip>
+        <MudIconButton Icon="@Icons.Material.Filled.Notifications" Color="Color.Inherit" />
+        <MudMenu Icon="@Icons.Material.Filled.Person" Color="Color.Inherit">
+            <MudMenuItem Icon="@Icons.Material.Filled.Person">Profile</MudMenuItem>
+            <MudMenuItem Icon="@Icons.Material.Filled.Settings">Settings</MudMenuItem>
+            <MudDivider />
+            <MudMenuItem Href="/" Icon="@Icons.Material.Filled.Home">Back to Website</MudMenuItem>
+            <MudDivider />
+            <MudMenuItem Icon="@Icons.Material.Filled.Logout" OnClick="Logout">Logout</MudMenuItem>
+        </MudMenu>
+    </MudAppBar>
+    
+    <MudDrawer Open="_drawerOpen" OpenChanged="@((bool val) => _drawerOpen = val)" 
+               ClipMode="DrawerClipMode.Always" Elevation="2" 
+               Style="background: linear-gradient(to bottom, #2C3E50 0%, #34495E 100%);">
+        <MudDrawerHeader Style="padding: 20px;">
+            <MudText Typo="Typo.h6" Style="color: #FFFFFF; font-weight: 600;">
+                Workshop Admin
+            </MudText>
+        </MudDrawerHeader>
+        <MudNavMenu Style="--mud-palette-text-primary: #ECF0F1; --mud-palette-action-default: #ECF0F1;">
+            <MudNavLink Href="/admin/dashboard" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Dashboard">
+                Dashboard
+            </MudNavLink>
+            <MudDivider Style="margin: 12px 0; border-color: rgba(236, 240, 241, 0.12);" />
+            <MudNavGroup Title="Workshop Management" Icon="@Icons.Material.Filled.Event" Expanded="true">
+                <MudNavLink Href="/admin/workshops" Icon="@Icons.Material.Filled.Event">
+                    Manage Workshops
+                </MudNavLink>
+                <MudNavLink Href="/admin/slots" Icon="@Icons.Material.Filled.Schedule">
+                    Manage Slots
+                </MudNavLink>
+            </MudNavGroup>
+            <MudNavGroup Title="Bookings & Payments" Icon="@Icons.Material.Filled.BookOnline" Expanded="true">
+                <MudNavLink Href="/admin/bookings" Icon="@Icons.Material.Filled.BookOnline">
+                    Manage Bookings
+                </MudNavLink>
+                <MudNavLink Href="/admin/payments" Icon="@Icons.Material.Filled.Payment">
+                    Payment Logs
+                </MudNavLink>
+            </MudNavGroup>
+            <MudDivider Style="margin: 12px 0; border-color: rgba(236, 240, 241, 0.12);" />
+            <MudNavLink Href="/admin/hero-images" Icon="@Icons.Material.Filled.Image">
+                Hero Images
+            </MudNavLink>
+            <MudNavLink Href="/admin/settings" Icon="@Icons.Material.Filled.Settings">
+                Settings
+            </MudNavLink>
+        </MudNavMenu>
+    </MudDrawer>
+    
+    <MudMainContent Style="background: #F8F9FA; min-height: 100vh;">
+        <MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mt-4 mb-4">
+            @Body
+        </MudContainer>
+    </MudMainContent>
+</MudLayout>
+
+@code {
+    private bool _drawerOpen = true;
+
+    private MudTheme _adminTheme = new()
+    {
+        PaletteLight = new PaletteLight()
+        {
+            Primary = "#2C3E50", // Professional dark blue-grey
+            Secondary = "#E74C3C", // Accent red
+            Tertiary = "#3498DB", // Info blue
+            Background = "#F8F9FA",
+            Surface = "#FFFFFF",
+            AppbarBackground = "#2C3E50",
+            DrawerBackground = "#2C3E50",
+            TextPrimary = "#2C3E50",
+            TextSecondary = "#7F8C8D",
+            ActionDefault = "#2C3E50",
+            Success = "#27AE60",
+            Info = "#3498DB",
+            Warning = "#F39C12",
+            Error = "#E74C3C"
+        }
+    };
+
+    void ToggleDrawer()
+    {
+        _drawerOpen = !_drawerOpen;
+    }
+
+    private void Logout()
+    {
+        // TODO: Implement logout logic
+    }
+}

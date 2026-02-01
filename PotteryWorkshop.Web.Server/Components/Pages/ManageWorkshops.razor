@@ -1,0 +1,94 @@
+@page "/admin/workshops"
+@layout AdminLayout
+
+@using PotteryWorkshop.Application.DTOs
+
+<PageTitle>Manage Workshops - Admin Panel</PageTitle>
+
+<MudText Typo="Typo.h4" Class="mb-4" Style="font-weight: 600;">
+    <MudIcon Icon="@Icons.Material.Filled.Event" Class="mr-2" />
+    Manage Workshops
+</MudText>
+
+<MudPaper Elevation="2" Class="pa-4 mb-4">
+    <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
+        <MudTextField @bind-Value="_searchString" 
+                      Placeholder="Search workshops..." 
+                      Adornment="Adornment.Start" 
+                      AdornmentIcon="@Icons.Material.Filled.Search"
+                      Variant="Variant.Outlined"
+                      Margin="Margin.Dense" />
+        <MudButton Variant="Variant.Filled" 
+                   Color="Color.Primary" 
+                   StartIcon="@Icons.Material.Filled.Add"
+                   OnClick="OpenAddWorkshopDialog">
+            Add Workshop
+        </MudButton>
+    </MudStack>
+</MudPaper>
+
+<MudTable Items="@_workshops" Hover="true" Striped="true" Elevation="2">
+    <HeaderContent>
+        <MudTh>Name</MudTh>
+        <MudTh>Duration</MudTh>
+        <MudTh>Price (1 Person)</MudTh>
+        <MudTh>Price (2 People)</MudTh>
+        <MudTh>Max Capacity</MudTh>
+        <MudTh>Status</MudTh>
+        <MudTh>Actions</MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="Name">@context.Name</MudTd>
+        <MudTd DataLabel="Duration">@context.DurationInMinutes min</MudTd>
+        <MudTd DataLabel="Price (1)">₹@context.PricePerPerson</MudTd>
+        <MudTd DataLabel="Price (2)">₹@context.PriceForTwo</MudTd>
+        <MudTd DataLabel="Capacity">@context.MaxCapacity</MudTd>
+        <MudTd DataLabel="Status">
+            <MudChip T="string" Size="Size.Small" Color="@(context.IsActive ? Color.Success : Color.Default)">
+                @(context.IsActive ? "Active" : "Inactive")
+            </MudChip>
+        </MudTd>
+        <MudTd DataLabel="Actions">
+            <MudIconButton Icon="@Icons.Material.Filled.Edit" 
+                           Size="Size.Small" 
+                           Color="Color.Primary" 
+                           Title="Edit" />
+            <MudIconButton Icon="@Icons.Material.Filled.Delete" 
+                           Size="Size.Small" 
+                           Color="Color.Error" 
+                           Title="Delete" />
+        </MudTd>
+    </RowTemplate>
+    <PagerContent>
+        <MudTablePager />
+    </PagerContent>
+</MudTable>
+
+@code {
+    private string _searchString = string.Empty;
+    private List<WorkshopDto> _workshops = new();
+
+    protected override void OnInitialized()
+    {
+        // TODO: Load workshops from API
+        LoadDemoData();
+    }
+
+    private void LoadDemoData()
+    {
+        _workshops = new List<WorkshopDto>
+        {
+            new WorkshopDto { Id = Guid.NewGuid(), Name = "7.0 Premium", DurationInMinutes = 180, PricePerPerson = 7000, PriceForTwo = 7000, MaxCapacity = 2, IsActive = true },
+            new WorkshopDto { Id = Guid.NewGuid(), Name = "5.0 Deluxe", DurationInMinutes = 180, PricePerPerson = 5000, PriceForTwo = 5000, MaxCapacity = 2, IsActive = true },
+            new WorkshopDto { Id = Guid.NewGuid(), Name = "4.0 Artistic", DurationInMinutes = 120, PricePerPerson = 4000, PriceForTwo = 4000, MaxCapacity = 2, IsActive = true },
+            new WorkshopDto { Id = Guid.NewGuid(), Name = "2 Hours Basic", DurationInMinutes = 120, PricePerPerson = 1200, PriceForTwo = 1700, MaxCapacity = 2, IsActive = true },
+            new WorkshopDto { Id = Guid.NewGuid(), Name = "3 Hours Advanced", DurationInMinutes = 180, PricePerPerson = 1900, PriceForTwo = 2200, MaxCapacity = 2, IsActive = true },
+            new WorkshopDto { Id = Guid.NewGuid(), Name = "1 Hour Kids", DurationInMinutes = 60, PricePerPerson = 750, PriceForTwo = 1100, MaxCapacity = 2, IsActive = true }
+        };
+    }
+
+    private void OpenAddWorkshopDialog()
+    {
+        // TODO: Implement add workshop dialog
+    }
+}
