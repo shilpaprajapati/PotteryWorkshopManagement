@@ -1,11 +1,11 @@
 @page "/login"
-@rendermode InteractiveServer
 @layout WebsiteLayout
 @using PotteryWorkshop.Application.Common.Interfaces
 @using PotteryWorkshop.Application.DTOs
 @using Microsoft.AspNetCore.Authentication
 @using Microsoft.AspNetCore.Authentication.Cookies
 @using System.Security.Claims
+@using Microsoft.AspNetCore.Components.Web
 
 <PageTitle>Login - Pottery Workshop</PageTitle>
 
@@ -23,7 +23,7 @@
             <MudAlert Severity="Severity.Error" Style="margin-bottom: 20px;">@_errorMessage</MudAlert>
         }
 
-        <EditForm Model="_loginModel" OnValidSubmit="HandleLogin" FormName="LoginForm">
+        <EditForm Model="_loginModel" OnValidSubmit="HandleLogin" FormName="LoginForm" Enhance>
             <DataAnnotationsValidator />
             
             <MudTextField @bind-Value="_loginModel.Email" 
@@ -78,7 +78,8 @@
 </MudContainer>
 
 @code {
-    private LoginModel _loginModel = new();
+    [SupplyParameterFromForm]
+    private LoginModel _loginModel { get; set; } = new();
     
     private bool _showPassword = false;
     private bool _rememberMe = false;
