@@ -1,6 +1,10 @@
 @page "/login"
 @layout WebsiteLayout
+@using PotteryWorkshop.Application.Common.Interfaces
 @using PotteryWorkshop.Application.DTOs
+@using Microsoft.AspNetCore.Authentication
+@using Microsoft.AspNetCore.Authentication.Cookies
+@using System.Security.Claims
 
 <PageTitle>Login - Pottery Workshop</PageTitle>
 
@@ -77,7 +81,9 @@
     private bool _isLoading = false;
     private string _errorMessage = string.Empty;
 
+    [Inject] private IUserAuthenticationService AuthService { get; set; } = default!;
     [Inject] private NavigationManager Navigation { get; set; } = default!;
+    [Inject] private IHttpContextAccessor HttpContextAccessor { get; set; } = default!;
 
     private void TogglePasswordVisibility()
     {
@@ -91,22 +97,47 @@
 
         try
         {
-            // TODO: Call API to authenticate user
-            await Task.Delay(1000); // Simulate API call
+            var result = await AuthService.LoginAsync(_loginModel.Email, _loginModel.Password);
 
-            // For now, hardcoded demo login
-            if (_loginModel.Email == "admin@potteryworkshop.com" && _loginModel.Password == "Admin@123")
+            if (result.Success && result.Token != null)
             {
-                // TODO: Store JWT token and user info
-                Navigation.NavigateTo("/admin/dashboard", forceLoad: true);
-            }
-            else if (_loginModel.Email == "user@test.com" && _loginModel.Password == "User@123")
-            {
-                Navigation.NavigateTo("/", forceLoad: true);
+                // Create claims for the user
+                var claims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.NameIdentifier, result.UserId ?? ""),
+                    new Claim(ClaimTypes.Email, result.Email ?? ""),
+                    new Claim(ClaimTypes.Name, $"{result.FirstName} {result.LastName}"),
+                    new Claim(ClaimTypes.Role, result.IsAdmin ? "Admin" : "User")
+                };
+
+                var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
+
+                var authProperties = new AuthenticationProperties
+                {
+                    IsPersistent = _rememberMe,
+                    ExpiresUtc = DateTimeOffset.UtcNow.AddDays(_rememberMe ? 30 : 1)
+                };
+
+                // Sign in the user
+                await HttpContextAccessor.HttpContext!.SignInAsync(
+                    CookieAuthenticationDefaults.AuthenticationScheme,
+                    claimsPrincipal,
+                    authProperties);
+
+                // Redirect based on role
+                if (result.IsAdmin)
+                {
+                    Navigation.NavigateTo("/admin/dashboard", forceLoad: true);
+                }
+                else
+                {
+                    Navigation.NavigateTo("/", forceLoad: true);
+                }
             }
             else
             {
-                _errorMessage = "Invalid email or password. Please try again.";
+                _errorMessage = result.ErrorMessage ?? "Invalid email or password. Please try again.";
             }
         }
         catch (Exception ex)

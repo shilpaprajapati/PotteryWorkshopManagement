@@ -58,3 +58,28 @@ h1:focus {
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
     text-align: start;
 }
+
+/* Fix MudTextField label/placeholder overlap issue */
+.mud-input-label {
+    pointer-events: none;
+    transform-origin: left top;
+}
+
+.mud-input-label-inputcontrol {
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+/* Ensure outlined variant inputs have proper spacing */
+.mud-input-outlined .mud-input-slot {
+    padding-top: 0;
+}
+
+.mud-input-outlined.mud-input-adorned-start .mud-input-slot {
+    padding-left: 14px;
+}
+
+.mud-input-outlined.mud-input-adorned-end .mud-input-slot {
+    padding-right: 14px;
+}

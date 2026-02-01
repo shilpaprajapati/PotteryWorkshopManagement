@@ -19,6 +19,10 @@ public static class DependencyInjection
         services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
 
         // Services
+        services.AddScoped<IUserAuthenticationService, UserAuthenticationService>();
+        services.AddScoped<IEmailService, EmailService>();
+        services.AddScoped<IBookingService, BookingService>();
+        services.AddScoped<IPaymentService, PaymentService>();
         services.AddScoped<INotificationService, TwilioNotificationService>();
         services.AddScoped<IQrCodeService, QrCodeService>();
         services.AddScoped<IFileStorageService, FileStorageService>();
