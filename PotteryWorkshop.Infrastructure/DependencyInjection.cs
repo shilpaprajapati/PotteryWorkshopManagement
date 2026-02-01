@@ -10,13 +10,16 @@ namespace PotteryWorkshop.Infrastructure;
 
 public static class DependencyInjection
 {
+    private const string LocalDbIdentifier = "(localdb)";
+    
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
         // Database - Support both SQL Server and SQLite
         var connectionString = configuration.GetConnectionString("DefaultConnection");
         var useSqlite = configuration.GetValue<bool>("UseSqlite", false);
         
-        if (useSqlite || string.IsNullOrEmpty(connectionString) || connectionString.Contains("(localdb)"))
+        // Use SQLite if explicitly configured, or if using LocalDB (for easier development)
+        if (useSqlite || string.IsNullOrEmpty(connectionString) || connectionString.Contains(LocalDbIdentifier))
         {
             // Use SQLite for development/testing
             services.AddDbContext<ApplicationDbContext>(options =>
