@@ -27,36 +27,48 @@
 
         <EditForm Model="_registerModel" OnValidSubmit="HandleRegister" FormName="RegisterForm" Enhance>
             <DataAnnotationsValidator />
+            <ValidationSummary style="color: #e50000; margin-bottom: 20px;" />
             
             <MudGrid Spacing="3">
                 <MudItem xs="12" md="6">
-                    <MudTextField @bind-Value="_registerModel.FirstName" 
+                    <MudTextField @bind-Value="_registerModel!.FirstName" 
                                   Label="First Name" 
                                   Variant="Variant.Outlined"
-                                  Placeholder="Enter first name" />
+                                  Placeholder="Enter first name"
+                                  Required="true"
+                                  RequiredError="First name is required"
+                                  For="@(() => _registerModel!.FirstName)" />
                 </MudItem>
                 <MudItem xs="12" md="6">
-                    <MudTextField @bind-Value="_registerModel.LastName" 
+                    <MudTextField @bind-Value="_registerModel!.LastName" 
                                   Label="Last Name" 
                                   Variant="Variant.Outlined"
-                                  Placeholder="Enter last name" />
+                                  Placeholder="Enter last name"
+                                  Required="true"
+                                  RequiredError="Last name is required"
+                                  For="@(() => _registerModel!.LastName)" />
                 </MudItem>
             </MudGrid>
 
-            <MudTextField @bind-Value="_registerModel.Email" 
+            <MudTextField @bind-Value="_registerModel!.Email" 
                           Label="Email" 
                           Variant="Variant.Outlined"
                           InputType="InputType.Email"
                           HelperText="We'll never share your email"
                           Style="margin-top: 20px;"
-                          Placeholder="your.email@example.com" />
+                          Placeholder="your.email@example.com"
+                          Required="true"
+                          RequiredError="Email is required"
+                          For="@(() => _registerModel!.Email)" />
 
             <MudGrid Spacing="2" Style="margin-top: 20px;">
                 <MudItem xs="4" md="3">
-                    <MudSelect @bind-Value="_registerModel.CountryCode" 
+                    <MudSelect @bind-Value="_registerModel!.CountryCode" 
                                Label="Code" 
                                Variant="Variant.Outlined"
-                               AnchorOrigin="Origin.BottomCenter">
+                               AnchorOrigin="Origin.BottomCenter"
+                               Required="true"
+                               RequiredError="Country code is required">
                         <MudSelectItem Value="@("+1")">+1 (US/CA)</MudSelectItem>
                         <MudSelectItem Value="@("+44")">+44 (UK)</MudSelectItem>
                         <MudSelectItem Value="@("+91")">+91 (IN)</MudSelectItem>
@@ -69,16 +81,19 @@
                     </MudSelect>
                 </MudItem>
                 <MudItem xs="8" md="9">
-                    <MudTextField @bind-Value="_registerModel.Phone" 
+                    <MudTextField @bind-Value="_registerModel!.Phone" 
                                   Label="Phone Number" 
                                   Variant="Variant.Outlined"
                                   InputType="InputType.Telephone"
                                   HelperText="We'll send booking confirmations here"
-                                  Placeholder="Enter phone number" />
+                                  Placeholder="Enter phone number"
+                                  Required="true"
+                                  RequiredError="Phone number is required"
+                                  For="@(() => _registerModel!.Phone)" />
                 </MudItem>
             </MudGrid>
 
-            <MudTextField @bind-Value="_registerModel.Password" 
+            <MudTextField @bind-Value="_registerModel!.Password" 
                           Label="Password" 
                           Variant="Variant.Outlined"
                           InputType="@(_showPassword ? InputType.Text : InputType.Password)"
@@ -87,9 +102,12 @@
                           OnAdornmentClick="TogglePasswordVisibility"
                           HelperText="At least 6 characters"
                           Style="margin-top: 20px;"
-                          Placeholder="Enter password" />
+                          Placeholder="Enter password"
+                          Required="true"
+                          RequiredError="Password is required"
+                          For="@(() => _registerModel!.Password)" />
 
-            <MudTextField @bind-Value="_registerModel.ConfirmPassword" 
+            <MudTextField @bind-Value="_registerModel!.ConfirmPassword" 
                           Label="Confirm Password" 
                           Variant="Variant.Outlined"
                           InputType="@(_showConfirmPassword ? InputType.Text : InputType.Password)"
@@ -98,16 +116,20 @@
                           OnAdornmentClick="ToggleConfirmPasswordVisibility"
                           HelperText="Re-enter your password"
                           Style="margin-top: 20px; margin-bottom: 10px;"
-                          Placeholder="Re-enter password" />
+                          Placeholder="Re-enter password"
+                          Required="true"
+                          RequiredError="Confirm password is required"
+                          For="@(() => _registerModel!.ConfirmPassword)" />
 
             <MudCheckBox @bind-Value="_agreedToTerms" 
                          Color="Color.Primary" 
                          Style="margin-bottom: 20px;"
-                         Required="true"
-                         RequiredError="You must agree to the terms and conditions">
-                <MudText Typo="Typo.body2">
-                    I agree to the <MudLink Href="/terms" Style="color: #D4A574;">Terms & Conditions</MudLink> and 
-                    <MudLink Href="/privacy" Style="color: #D4A574;">Privacy Policy</MudLink>
+                         Dense="false"
+                         Size="Size.Medium"
+                         Label="">
+                <MudText Typo="Typo.body2" Style="color: #6B5744;">
+                    I agree to the <MudLink Href="/terms" Style="color: #D4A574; font-weight: 600;">Terms & Conditions</MudLink> and 
+                    <MudLink Href="/privacy" Style="color: #D4A574; font-weight: 600;">Privacy Policy</MudLink>
                 </MudText>
             </MudCheckBox>
 
@@ -148,11 +170,13 @@
 
 @code {
     [SupplyParameterFromForm]
-    private RegisterModel _registerModel { get; set; } = new();
+    private RegisterModel? _registerModel { get; set; } = new();
+    
+    [SupplyParameterFromForm]
+    private bool _agreedToTerms { get; set; }
     
     private bool _showPassword = false;
     private bool _showConfirmPassword = false;
-    private bool _agreedToTerms = false;
     private bool _isLoading = false;
     private bool _showValidationMessage = false;
     private string _errorMessage = string.Empty;
@@ -192,6 +216,14 @@
 
         try
         {
+            // Check if model is null
+            if (_registerModel == null)
+            {
+                _errorMessage = "An error occurred. Please try again.";
+                _isLoading = false;
+                return;
+            }
+
             // Check if user agreed to terms
             if (!_agreedToTerms)
             {
