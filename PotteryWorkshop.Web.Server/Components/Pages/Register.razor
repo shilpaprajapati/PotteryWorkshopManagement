@@ -1,4 +1,5 @@
 @page "/register"
+@rendermode InteractiveServer
 @layout WebsiteLayout
 @using PotteryWorkshop.Application.Common.Interfaces
 @using PotteryWorkshop.Application.DTOs
@@ -25,7 +26,7 @@
             <MudAlert Severity="Severity.Success" Style="margin-bottom: 20px;">@_successMessage</MudAlert>
         }
 
-        <EditForm Model="_registerModel" OnValidSubmit="HandleRegister" FormName="RegisterForm" Enhance>
+        <EditForm Model="_registerModel" OnValidSubmit="HandleRegister">
             <DataAnnotationsValidator />
             <ValidationSummary style="color: #e50000; margin-bottom: 20px;" />
             
@@ -169,10 +170,8 @@
 </MudContainer>
 
 @code {
-    [SupplyParameterFromForm]
-    private RegisterModel? _registerModel { get; set; } = new();
+    private RegisterModel _registerModel { get; set; } = null!;
     
-    [SupplyParameterFromForm]
     private bool _agreedToTerms { get; set; }
     
     private bool _showPassword = false;
@@ -187,8 +186,7 @@
 
     protected override void OnInitialized()
     {
-        // Initialize model if null
-        _registerModel ??= new RegisterModel();
+        _registerModel = new RegisterModel();
         
         // Set default country code to +91 (India) if not already set
         if (string.IsNullOrEmpty(_registerModel.CountryCode))

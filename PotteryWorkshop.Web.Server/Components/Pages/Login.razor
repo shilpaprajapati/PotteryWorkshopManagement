@@ -1,4 +1,5 @@
 @page "/login"
+@rendermode InteractiveServer
 @layout WebsiteLayout
 @using PotteryWorkshop.Application.Common.Interfaces
 @using PotteryWorkshop.Application.DTOs
@@ -23,7 +24,7 @@
             <MudAlert Severity="Severity.Error" Style="margin-bottom: 20px;">@_errorMessage</MudAlert>
         }
 
-        <EditForm Model="_loginModel" OnValidSubmit="HandleLogin" FormName="LoginForm" Enhance>
+        <EditForm Model="_loginModel" OnValidSubmit="HandleLogin">
             <DataAnnotationsValidator />
             
             <MudTextField @bind-Value="_loginModel.Email" 
@@ -76,8 +77,7 @@
 </MudContainer>
 
 @code {
-    [SupplyParameterFromForm]
-    private LoginModel _loginModel { get; set; } = new();
+    private LoginModel _loginModel { get; set; } = null!;
     
     private bool _showPassword = false;
     private bool _rememberMe = false;
@@ -87,6 +87,11 @@
     [Inject] private IUserAuthenticationService AuthService { get; set; } = default!;
     [Inject] private NavigationManager Navigation { get; set; } = default!;
     [Inject] private IHttpContextAccessor HttpContextAccessor { get; set; } = default!;
+
+    protected override void OnInitialized()
+    {
+        _loginModel = new LoginModel();
+    };
 
     private void TogglePasswordVisibility()
     {
