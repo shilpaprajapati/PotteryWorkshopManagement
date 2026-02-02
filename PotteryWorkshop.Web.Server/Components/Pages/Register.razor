@@ -33,15 +33,13 @@
                     <MudTextField @bind-Value="_registerModel.FirstName" 
                                   Label="First Name" 
                                   Variant="Variant.Outlined"
-                                  Placeholder="Enter first name"
-                                  For="@(() => _registerModel.FirstName)" />
+                                  Placeholder="Enter first name" />
                 </MudItem>
                 <MudItem xs="12" md="6">
                     <MudTextField @bind-Value="_registerModel.LastName" 
                                   Label="Last Name" 
                                   Variant="Variant.Outlined"
-                                  Placeholder="Enter last name"
-                                  For="@(() => _registerModel.LastName)" />
+                                  Placeholder="Enter last name" />
                 </MudItem>
             </MudGrid>
 
@@ -51,16 +49,14 @@
                           InputType="InputType.Email"
                           HelperText="We'll never share your email"
                           Style="margin-top: 20px;"
-                          Placeholder="your.email@example.com"
-                          For="@(() => _registerModel.Email)" />
+                          Placeholder="your.email@example.com" />
 
             <MudGrid Spacing="2" Style="margin-top: 20px;">
                 <MudItem xs="4" md="3">
                     <MudSelect @bind-Value="_registerModel.CountryCode" 
                                Label="Code" 
                                Variant="Variant.Outlined"
-                               AnchorOrigin="Origin.BottomCenter"
-                               For="@(() => _registerModel.CountryCode)">
+                               AnchorOrigin="Origin.BottomCenter">
                         <MudSelectItem Value="@("+1")">+1 (US/CA)</MudSelectItem>
                         <MudSelectItem Value="@("+44")">+44 (UK)</MudSelectItem>
                         <MudSelectItem Value="@("+91")">+91 (IN)</MudSelectItem>
@@ -78,8 +74,7 @@
                                   Variant="Variant.Outlined"
                                   InputType="InputType.Telephone"
                                   HelperText="We'll send booking confirmations here"
-                                  Placeholder="Enter phone number"
-                                  For="@(() => _registerModel.Phone)" />
+                                  Placeholder="Enter phone number" />
                 </MudItem>
             </MudGrid>
 
@@ -92,8 +87,7 @@
                           OnAdornmentClick="TogglePasswordVisibility"
                           HelperText="At least 6 characters"
                           Style="margin-top: 20px;"
-                          Placeholder="Enter password"
-                          For="@(() => _registerModel.Password)" />
+                          Placeholder="Enter password" />
 
             <MudTextField @bind-Value="_registerModel.ConfirmPassword" 
                           Label="Confirm Password" 
@@ -104,8 +98,7 @@
                           OnAdornmentClick="ToggleConfirmPasswordVisibility"
                           HelperText="Re-enter your password"
                           Style="margin-top: 20px; margin-bottom: 10px;"
-                          Placeholder="Re-enter password"
-                          For="@(() => _registerModel.ConfirmPassword)" />
+                          Placeholder="Re-enter password" />
 
             <MudCheckBox @bind-Value="_agreedToTerms" 
                          Color="Color.Primary" 
