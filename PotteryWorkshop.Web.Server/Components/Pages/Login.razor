@@ -5,6 +5,7 @@
 @using Microsoft.AspNetCore.Authentication
 @using Microsoft.AspNetCore.Authentication.Cookies
 @using System.Security.Claims
+@using Microsoft.AspNetCore.Components.Web
 
 <PageTitle>Login - Pottery Workshop</PageTitle>
 
@@ -22,7 +23,7 @@
             <MudAlert Severity="Severity.Error" Style="margin-bottom: 20px;">@_errorMessage</MudAlert>
         }
 
-        <EditForm Model="_loginModel" OnValidSubmit="HandleLogin">
+        <EditForm Model="_loginModel" OnValidSubmit="HandleLogin" FormName="LoginForm" Enhance>
             <DataAnnotationsValidator />
             
             <MudTextField @bind-Value="_loginModel.Email" 
@@ -31,6 +32,7 @@
                           InputType="InputType.Email"
                           HelperText="Enter your email address"
                           Style="margin-bottom: 20px;"
+                          Placeholder="your.email@example.com"
                           For="@(() => _loginModel.Email)" />
 
             <MudTextField @bind-Value="_loginModel.Password" 
@@ -42,6 +44,7 @@
                           OnAdornmentClick="TogglePasswordVisibility"
                           HelperText="Enter your password"
                           Style="margin-bottom: 10px;"
+                          Placeholder="Enter password"
                           For="@(() => _loginModel.Password)" />
 
             <MudCheckBox @bind-Value="_rememberMe" Label="Remember me" Color="Color.Primary" Style="margin-bottom: 20px;" />
@@ -75,7 +78,9 @@
 </MudContainer>
 
 @code {
-    private LoginModel _loginModel = new();
+    [SupplyParameterFromForm]
+    private LoginModel _loginModel { get; set; } = new();
+    
     private bool _showPassword = false;
     private bool _rememberMe = false;
     private bool _isLoading = false;
@@ -140,7 +145,7 @@
                 _errorMessage = result.ErrorMessage ?? "Invalid email or password. Please try again.";
             }
         }
-        catch (Exception ex)
+        catch (Exception)
         {
             _errorMessage = "An error occurred during login. Please try again.";
         }
