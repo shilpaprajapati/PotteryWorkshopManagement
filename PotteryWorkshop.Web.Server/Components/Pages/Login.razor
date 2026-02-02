@@ -32,8 +32,7 @@
                           InputType="InputType.Email"
                           HelperText="Enter your email address"
                           Style="margin-bottom: 20px;"
-                          Placeholder="your.email@example.com"
-                          For="@(() => _loginModel.Email)" />
+                          Placeholder="your.email@example.com" />
 
             <MudTextField @bind-Value="_loginModel.Password" 
                           Label="Password" 
@@ -44,8 +43,7 @@
                           OnAdornmentClick="TogglePasswordVisibility"
                           HelperText="Enter your password"
                           Style="margin-bottom: 10px;"
-                          Placeholder="Enter password"
-                          For="@(() => _loginModel.Password)" />
+                          Placeholder="Enter password" />
 
             <MudCheckBox @bind-Value="_rememberMe" Label="Remember me" Color="Color.Primary" Style="margin-bottom: 20px;" />
 
