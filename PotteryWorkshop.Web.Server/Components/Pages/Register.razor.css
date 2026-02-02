@@ -112,16 +112,6 @@
     transition: box-shadow 0.3s ease;
 }
 
-/* Loading state */
-::deep .mud-progress-circular {
-    animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-}
-
 /* Grid item spacing improvements */
 ::deep .mud-grid-item {
     transition: all 0.3s ease;

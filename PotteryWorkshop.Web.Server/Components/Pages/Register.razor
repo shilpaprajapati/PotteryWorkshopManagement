@@ -170,7 +170,7 @@
 
 @code {
     [SupplyParameterFromForm]
-    private RegisterModel? _registerModel { get; set; }
+    private RegisterModel? _registerModel { get; set; } = new();
     
     [SupplyParameterFromForm]
     private bool _agreedToTerms { get; set; }
