@@ -1,0 +1,160 @@
+/* Enhanced Register Page Styling */
+
+/* Add smooth transitions for all form elements */
+::deep .mud-input-root {
+    transition: all 0.3s ease;
+}
+
+/* Focus animation for text fields */
+::deep .mud-input-root:focus-within {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(212, 165, 116, 0.2);
+}
+
+::deep .mud-input-outlined:focus-within .mud-input-outlined-border {
+    border-color: #D4A574;
+    border-width: 2px;
+}
+
+/* Checkbox styling improvements */
+::deep .mud-checkbox {
+    transition: transform 0.2s ease;
+}
+
+::deep .mud-checkbox:hover {
+    transform: scale(1.05);
+}
+
+::deep .mud-checkbox-checked {
+    color: #D4A574 !important;
+}
+
+/* Select dropdown improvements */
+::deep .mud-select {
+    transition: all 0.3s ease;
+}
+
+::deep .mud-select:focus-within {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(212, 165, 116, 0.2);
+}
+
+::deep .mud-select-outlined:focus-within .mud-input-outlined-border {
+    border-color: #D4A574;
+    border-width: 2px;
+}
+
+/* Button hover effects */
+::deep .mud-button-filled {
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(139, 115, 85, 0.3);
+}
+
+::deep .mud-button-filled:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(139, 115, 85, 0.4);
+}
+
+::deep .mud-button-filled:active:not(:disabled) {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(139, 115, 85, 0.3);
+}
+
+/* Adornment icon styling */
+::deep .mud-input-adornment {
+    transition: color 0.3s ease;
+}
+
+::deep .mud-input-root:focus-within .mud-input-adornment {
+    color: #D4A574;
+}
+
+/* Link hover effects */
+::deep .mud-link {
+    transition: color 0.2s ease, text-decoration 0.2s ease;
+}
+
+::deep .mud-link:hover {
+    text-decoration: underline;
+    color: #8B7355 !important;
+}
+
+/* Validation styling */
+::deep .mud-input-error .mud-input-outlined-border {
+    border-color: #f44336 !important;
+    animation: shake 0.3s ease;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+/* Alert animations */
+::deep .mud-alert {
+    animation: slideIn 0.4s ease;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Paper elevation enhancement */
+::deep .mud-paper {
+    transition: box-shadow 0.3s ease;
+}
+
+/* Loading state */
+::deep .mud-progress-circular {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* Grid item spacing improvements */
+::deep .mud-grid-item {
+    transition: all 0.3s ease;
+}
+
+/* Text field label animation */
+::deep .mud-input-label {
+    transition: all 0.3s ease;
+}
+
+::deep .mud-input-root:focus-within .mud-input-label {
+    color: #D4A574 !important;
+}
+
+/* Helper text styling */
+::deep .mud-input-helper-text {
+    transition: color 0.3s ease;
+}
+
+::deep .mud-input-root:focus-within .mud-input-helper-text {
+    color: #8B7355;
+}
+
+/* Checkbox label styling */
+::deep .mud-checkbox .mud-typography {
+    transition: color 0.2s ease;
+}
+
+::deep .mud-checkbox:hover .mud-typography {
+    color: #8B7355;
+}
+
+/* Divider animation */
+::deep .mud-divider {
+    transition: opacity 0.3s ease;
+}
